@@ -23,6 +23,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var backgroundTableView: UIView!
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var stackRiwayat: UIStackView!
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
     
@@ -45,7 +46,9 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         setHelloLabel()
         setUangMasuk()
         setUangKeluar()
-        backgroundTableView.layer.cornerRadius = 16
+        backgroundTableView.layer.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
+        backgroundTableView.layer.cornerRadius = 20
+        stackRiwayat.layer.cornerRadius = 20
         let uiNIb = UINib(nibName: String(describing: MainTableViewCell.self), bundle: nil)
         tableView.register(uiNIb, forCellReuseIdentifier: String(describing: MainTableViewCell.self))
         tableView.reloadData()
@@ -174,7 +177,6 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
-        tableView.reloadData()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
