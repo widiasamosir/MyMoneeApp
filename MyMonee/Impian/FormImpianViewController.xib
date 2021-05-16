@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Regular.ttf">
+            <string>Poppins-Regular</string>
+        </array>
+        <array key="Poppins-SemiBold.ttf">
+            <string>Poppins-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FormImpianViewController" customModule="MyMonee" customModuleProvider="target">
+            <connections>
+                <outlet property="buttonSave" destination="G8V-K1-P0h" id="Zxt-Ty-fkH"/>
+                <outlet property="textJudul" destination="HRB-rY-dmA" id="Q2r-SO-RV5"/>
+                <outlet property="textTargetCapaian" destination="LM3-Uw-GLd" id="Kk2-iV-HCi"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="arg-De-fmG">
+                    <rect key="frame" x="20" y="64" width="374" height="20"/>
+                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                    <color key="tintColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" title="Tambah Impian" image="chevron.left" catalog="system">
+                        <color key="titleColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="back:" destination="-1" eventType="touchUpInside" id="Ncy-Pm-s8A"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LM3-Uw-GLd">
+                    <rect key="frame" x="20" y="229.5" width="374" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="ZYK-J7-oze"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8V-K1-P0h">
+                    <rect key="frame" x="30" y="725" width="354" height="43"/>
+                    <color key="backgroundColor" red="0.31372549020000001" green="0.41176470590000003" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="43" id="D2v-aQ-2ix"/>
+                    </constraints>
+                    <state key="normal" title="Simpan">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                    <connections>
+                        <action selector="save:" destination="-1" eventType="touchUpInside" id="htW-NH-74r"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HRB-rY-dmA" userLabel="JudulTextField">
+                    <rect key="frame" x="20" y="132" width="374" height="34"/>
+                    <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Judul" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKZ-Pt-f0N">
+                    <rect key="frame" x="20" y="103" width="374" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="TRj-jn-XCc"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                    <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Capaian (Rp)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyU-gG-kSU">
+                    <rect key="frame" x="20" y="199.5" width="123.5" height="16.5"/>
+                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                    <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="sKZ-Pt-f0N" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="103" id="11c-FF-Gb8"/>
+                <constraint firstItem="oyU-gG-kSU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="3P6-Ms-xnX"/>
+                <constraint firstItem="HRB-rY-dmA" firstAttribute="trailing" secondItem="LM3-Uw-GLd" secondAttribute="trailing" id="6Bp-Y9-LQP"/>
+                <constraint firstItem="sKZ-Pt-f0N" firstAttribute="leading" secondItem="HRB-rY-dmA" secondAttribute="leading" id="6EJ-7B-Pi7"/>
+                <constraint firstItem="arg-De-fmG" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="6g7-u7-JQP"/>
+                <constraint firstItem="G8V-K1-P0h" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="8dh-69-6WS"/>
+                <constraint firstItem="LM3-Uw-GLd" firstAttribute="top" secondItem="oyU-gG-kSU" secondAttribute="top" constant="30" id="9Jv-4t-wMX"/>
+                <constraint firstItem="arg-De-fmG" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="BUt-Va-MvN"/>
+                <constraint firstItem="sKZ-Pt-f0N" firstAttribute="top" secondItem="arg-De-fmG" secondAttribute="bottom" constant="19" id="FfZ-ZB-ez6"/>
+                <constraint firstItem="HRB-rY-dmA" firstAttribute="top" secondItem="sKZ-Pt-f0N" secondAttribute="bottom" constant="8" symbolic="YES" id="Kdr-Tj-NoC"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="arg-De-fmG" secondAttribute="trailing" constant="20" id="Lox-oB-A4k"/>
+                <constraint firstItem="LM3-Uw-GLd" firstAttribute="centerX" secondItem="G8V-K1-P0h" secondAttribute="centerX" id="YDq-aM-7nP"/>
+                <constraint firstItem="HRB-rY-dmA" firstAttribute="leading" secondItem="oyU-gG-kSU" secondAttribute="leading" id="YbU-H7-gmd"/>
+                <constraint firstItem="LM3-Uw-GLd" firstAttribute="leading" secondItem="oyU-gG-kSU" secondAttribute="leading" id="eYL-8E-pm9"/>
+                <constraint firstItem="oyU-gG-kSU" firstAttribute="bottom" secondItem="HRB-rY-dmA" secondAttribute="bottom" constant="50" id="fkL-4P-aVJ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="G8V-K1-P0h" secondAttribute="bottom" constant="94" id="rVw-IH-f7d"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="LM3-Uw-GLd" secondAttribute="trailing" constant="20" id="sBb-4V-UfB"/>
+                <constraint firstItem="sKZ-Pt-f0N" firstAttribute="trailing" secondItem="HRB-rY-dmA" secondAttribute="trailing" id="uDi-jI-ZDc"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="85"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

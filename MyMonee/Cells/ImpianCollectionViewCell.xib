@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Poppins-Regular.ttf">
+            <string>Poppins-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewID" id="gTV-IL-0wX" customClass="ImpianCollectionViewCell" customModule="MyMonee" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="298" height="80"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="298" height="80"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PMq-JH-Op1">
+                        <rect key="frame" x="0.0" y="0.0" width="298" height="80"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nP2-bF-aQm">
+                                <rect key="frame" x="10" y="10" width="278" height="60"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Wzu-as-qOo">
+                                        <rect key="frame" x="0.0" y="0.0" width="254" height="60"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Judul" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KQ3-u1-8hI">
+                                                <rect key="frame" x="0.0" y="0.0" width="254" height="20.5"/>
+                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="mXU-A9-6e0">
+                                                <rect key="frame" x="0.0" y="30.5" width="254" height="4"/>
+                                            </progressView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sHe-BN-6UI">
+                                                <rect key="frame" x="0.0" y="44.5" width="254" height="15.5"/>
+                                                <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="11"/>
+                                                <color key="textColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AsA-OA-iVd">
+                                        <rect key="frame" x="254" y="0.0" width="24" height="60"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="Z9y-3j-LeV"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.50980392159999999" green="0.50980392159999999" blue="0.50980392159999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="chevron.right" catalog="system"/>
+                                    </button>
+                                </subviews>
+                                <color key="tintColor" red="0.31372549020000001" green="0.41176470590000003" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="80" id="15g-Tz-mOE"/>
+                            <constraint firstAttribute="bottom" secondItem="nP2-bF-aQm" secondAttribute="bottom" constant="10" id="NaZ-fG-YW8"/>
+                            <constraint firstItem="nP2-bF-aQm" firstAttribute="top" secondItem="PMq-JH-Op1" secondAttribute="top" constant="10" id="avh-Jh-9TS"/>
+                            <constraint firstItem="nP2-bF-aQm" firstAttribute="leading" secondItem="PMq-JH-Op1" secondAttribute="leading" constant="10" id="iym-23-afp"/>
+                            <constraint firstAttribute="trailing" secondItem="nP2-bF-aQm" secondAttribute="trailing" constant="10" id="ob5-7A-uZG"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="PMq-JH-Op1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="GkG-FR-wa2"/>
+                <constraint firstAttribute="bottom" secondItem="PMq-JH-Op1" secondAttribute="bottom" id="bJZ-Gb-K6o"/>
+                <constraint firstAttribute="trailing" secondItem="PMq-JH-Op1" secondAttribute="trailing" id="bo1-hT-7We"/>
+                <constraint firstItem="PMq-JH-Op1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="tEx-8j-HOY"/>
+            </constraints>
+            <size key="customSize" width="298" height="80"/>
+            <connections>
+                <outlet property="judulImpian" destination="KQ3-u1-8hI" id="Ybz-tp-oRD"/>
+                <outlet property="progessImpian" destination="mXU-A9-6e0" id="lVK-t1-EYP"/>
+                <outlet property="targetImpian" destination="sHe-BN-6UI" id="WpC-db-x9K"/>
+                <outlet property="viewCell" destination="PMq-JH-Op1" id="HtE-fa-cOH"/>
+            </connections>
+            <point key="canvasLocation" x="314.49275362318843" y="95.758928571428569"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="chevron.right" catalog="system" width="96" height="128"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
