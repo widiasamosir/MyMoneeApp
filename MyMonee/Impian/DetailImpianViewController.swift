@@ -1,10 +1,3 @@
-//
-//  DetailImpianViewController.swift
-//  MyMonee
-//
-//  Created by Macbook on 15/05/21.
-//
-
 import UIKit
 
 class DetailImpianViewController: UIViewController {
@@ -29,6 +22,7 @@ class DetailImpianViewController: UIViewController {
         updateImpianController.wish = wish!
         self.navigationController?.pushViewController(updateImpianController, animated: true)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         judul.text = wish.name
@@ -52,22 +46,27 @@ class DetailImpianViewController: UIViewController {
         confirmGesture.numberOfTapsRequired = 1
         buttonConfirm.addGestureRecognizer(confirmGesture)
         buttonConfirm.isUserInteractionEnabled = true
+        if (setProgress(target: wish.target!, reached: wish.reachedTarget!)) == 1{
+            buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
+        } else {
+            buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 0.5).cgColor
+        }
       
     }
+    
     @objc func back(_ sender: UITapGestureRecognizer){
         
         let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
-       impianViewController.isAvailable(wish: wish)
-        
         wishLists[indexPath!] = wish
         navigationController?.setViewControllers([impianViewController], animated: true)
-       
-        
     }
+    
     @objc func setTercapai(_ sender: UITapGestureRecognizer) {
         wish.reachedTarget = wish.target
+     
         self.viewDidLoad()
     }
+    
     func setProgress(target: Int, reached: Int) -> Float {
         var progress : Float!
         

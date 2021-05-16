@@ -1,10 +1,3 @@
-//
-//  ProfileViewController.swift
-//  MyMonee
-//
-//  Created by Macbook on 14/05/21.
-//
-
 import UIKit
 
 class ProfileViewController: UIViewController {
@@ -19,7 +12,9 @@ class ProfileViewController: UIViewController {
     var editedName: String?
     @IBAction func editProfile(_ sender: Any) {
         let updateProfileController = UpdateProfileViewController(nibName: "UpdateProfileViewController", bundle: nil)
-        self.navigationController?.pushViewController(updateProfileController, animated: true)
+        let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
+        updateProfileController.imageUpdated =  self.profilePicture.image
+        navigationController?.setViewControllers([profileViewController, updateProfileController], animated: true)
     }
     override func viewDidLoad() {
         super.viewDidLoad()

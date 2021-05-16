@@ -40,13 +40,16 @@
                         <action selector="back:" destination="-1" eventType="touchUpInside" id="Ncy-Pm-s8A"/>
                     </connections>
                 </button>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LM3-Uw-GLd">
-                    <rect key="frame" x="20" y="229.5" width="374" height="34"/>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="999000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LM3-Uw-GLd">
+                    <rect key="frame" x="20" y="217.5" width="374" height="34"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="34" id="ZYK-J7-oze"/>
                     </constraints>
                     <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="editedTarget:" destination="-1" eventType="editingChanged" id="A2f-Hh-cyo"/>
+                    </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8V-K1-P0h">
                     <rect key="frame" x="30" y="725" width="354" height="43"/>
@@ -61,8 +64,8 @@
                         <action selector="save:" destination="-1" eventType="touchUpInside" id="htW-NH-74r"/>
                     </connections>
                 </button>
-                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HRB-rY-dmA" userLabel="JudulTextField">
-                    <rect key="frame" x="20" y="132" width="374" height="34"/>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Judul Impian" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HRB-rY-dmA" userLabel="JudulTextField">
+                    <rect key="frame" x="20" y="132" width="374" height="25.5"/>
                     <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="17"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
@@ -76,7 +79,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Target Capaian (Rp)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oyU-gG-kSU">
-                    <rect key="frame" x="20" y="199.5" width="123.5" height="16.5"/>
+                    <rect key="frame" x="20" y="187.5" width="145" height="20"/>
                     <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
                     <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>

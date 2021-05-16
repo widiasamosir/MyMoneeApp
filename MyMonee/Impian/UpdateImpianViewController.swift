@@ -17,6 +17,7 @@ class UpdateImpianViewController: UIViewController {
     var wish : Impian!
     var indexPath: Int?
     @IBOutlet weak var buttonSimpan: UIButton!
+    
     @IBAction func save(_ sender: Any) {
         if(textJudul.hasText){
             wish.name = textJudul.text!
@@ -30,6 +31,7 @@ class UpdateImpianViewController: UIViewController {
         detailController.indexPath = self.indexPath
         navigationController?.setViewControllers([detailController], animated: true)
     }
+    
     @IBAction func deleteWish(_ sender: Any) {
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         let alert = UIAlertController(title: "Menghapus wishlist", message: "Apakah Anda mau menghapus wishlist ini?", preferredStyle: .alert)
@@ -45,6 +47,7 @@ class UpdateImpianViewController: UIViewController {
        
         
     }
+    
     @IBAction func back(_ sender: Any) {
         let detailController = DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
         detailController.wish = self.wish!
@@ -52,12 +55,13 @@ class UpdateImpianViewController: UIViewController {
         navigationController?.setViewControllers([detailController], animated: true)
        
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         impianController.isAvailable(wish: wish)
-        textJudul.placeholder = wishLists[indexPath!].name
-        textTargetCapaian.placeholder
+        textJudul.text = wishLists[indexPath!].name
+        textTargetCapaian.text
             = String(wishLists[indexPath!].target!)
         
         buttonSimpan.layer.cornerRadius = 20

@@ -19,7 +19,24 @@ class FormPenggunaanViewController: UIViewController {
     var penggunaan : Pengeluaran!
     var isJudulEmpty : Bool? = true
     var isJumlahEmpty : Bool? = true
+    var temporaryTarget : String = ""
+    @IBAction func judulDidChange(_ sender: Any) {
+        self.isJudulEmpty = false
+        self.viewDidLoad()
+    }
 
+    @IBAction func jumlahDidChange(_ sender: Any) {
+        self.isJumlahEmpty = false
+        self.viewDidLoad()
+    }
+    
+    @IBAction func editedTarget(_ sender: Any) {
+        temporaryTarget = parseDot(price: textJumlah.text!)
+        textJumlah.text = getStringPrice(price: temporaryTarget)
+        print(textJumlah.text!)
+    }
+   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let date = Date()
@@ -47,18 +64,21 @@ class FormPenggunaanViewController: UIViewController {
 
         print(isJumlahEmpty!)
         print(isJudulEmpty!)
-       
-        if status != nil
+        if status != nil {
+            print("status: ",status!)
+        }
+        if isJumlahEmpty == false && isJudulEmpty == false && (status != nil)
         {
-            print("masuk")
+            
             let saveGesture = UITapGestureRecognizer(target: self, action: #selector(self.simpan(_:)))
             buttonSimpan.addGestureRecognizer(saveGesture)
             saveGesture.numberOfTapsRequired = 1
             buttonSimpan.isUserInteractionEnabled = true
             buttonSimpan.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
+            activateButtonSave()
         }
         else{
-            print("status nil")
+            
             buttonSimpan.layer.backgroundColor = UIColor(red: 0.741, green: 0.741, blue: 0.741, alpha: 1).cgColor
             
             
@@ -67,14 +87,34 @@ class FormPenggunaanViewController: UIViewController {
     }
     
  
-    @IBAction func judulDidChange(_ sender: Any) {
-        self.isJudulEmpty = false
-    }
+   
+    func getStringPrice(price: String) -> String {
+        let number = String(price)
+        let array = Array(number)
+        var priceString: String = ""
 
-    @IBAction func jumlahDidChange(_ sender: Any) {
-        self.isJumlahEmpty = false
+        var newArray : [String] = []
+
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
     }
-    
+    func parseDot(price: String)-> String{
+        let array = price.components(separatedBy: ".")
+        var string = ""
+        for item in array {
+            string.append(item)
+        }
+        return string
+    }
     func activateButtonSave(){
         let saveGesture = UITapGestureRecognizer(target: self, action: #selector(self.simpan(_:)))
         buttonSimpan.addGestureRecognizer(saveGesture)
@@ -112,7 +152,7 @@ class FormPenggunaanViewController: UIViewController {
         button.layer.shadowColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
         buttonPickPengeluaran.layer.shadowColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
         self.status = false
-        activateButtonSave()
+        self.viewDidLoad()
       
     }
     @objc func clickedPengeluaran(_ sender: UITapGestureRecognizer) {
@@ -122,7 +162,7 @@ class FormPenggunaanViewController: UIViewController {
         button.layer.shadowColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
         buttonPickPemasukan.layer.shadowColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
         self.status = true
-        activateButtonSave()
+        self.viewDidLoad()
       
     }
     @objc func back(_ sender: UITapGestureRecognizer){
@@ -133,7 +173,7 @@ class FormPenggunaanViewController: UIViewController {
     }
     @objc func simpan(_ sender: UITapGestureRecognizer) {
         penggunaan.pengeluaranName = self.textJudul.text
-        penggunaan.pengeluaranPrice = Int(self.textJumlah.text!)
+        penggunaan.pengeluaranPrice = Int(parseDot(price:  self.textJumlah.text!))
         penggunaan.status = self.status!
         let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
         pengeluaran.append(penggunaan)

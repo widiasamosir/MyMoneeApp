@@ -68,8 +68,8 @@
                             <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
+                                <action selector="editedTarget:" destination="-1" eventType="editingChanged" id="OVa-eA-ZLJ"/>
                                 <action selector="jumlahDidChange:" destination="-1" eventType="editingDidBegin" id="PsE-d3-DfS"/>
-                                <action selector="jumlahDidChange:" destination="-1" eventType="editingDidEnd" id="Uxm-Ja-vuR"/>
                             </connections>
                         </textField>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Kategori Penggunaan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CqJ-4C-IjA">

@@ -21,8 +21,8 @@ class UpdatePenggunaanViewController: UIViewController {
     var indexPath : Int?
     override func viewDidLoad() {
         super.viewDidLoad()
-        textJudul.placeholder = penggunaan.pengeluaranName
-        textJumlah.placeholder = String(penggunaan.pengeluaranPrice!)
+        textJudul.text = penggunaan.pengeluaranName
+        textJumlah.text = String(penggunaan.pengeluaranPrice!)
         buttonPickPemasukan.layer.cornerRadius = 8
        setShadowCategory(button: buttonPickPemasukan)
         setShadowCategory(button: buttonPickPengeluaran)
@@ -47,11 +47,15 @@ class UpdatePenggunaanViewController: UIViewController {
         backButton.addGestureRecognizer(backGesture)
         backGesture.numberOfTapsRequired = 1
     }
+    
     func setShadowCategory(button : UIView!) {
         button.layer.shadowRadius = 4
         button.layer.shadowOpacity = 0.3
         button.layer.shadowColor = UIColor.gray.cgColor
     }
+    
+    
+    
     
     @objc func clickedPemasukan(_ sender: UITapGestureRecognizer) {
         let button = sender.view!

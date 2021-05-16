@@ -26,7 +26,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var stackRiwayat: UIStackView!
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
-    
+    enum TimeString : String{
+        case pagi  = "Selamat Pagi,"
+        case siang = "Selamat Siang,"
+        case sore = "Selamat Sore,"
+        case malam = "Selamat Malam,"
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -123,15 +128,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         dateFormatter.locale = Locale(identifier: "id_ID")
         let timeNow = dateFormatter.string(from: Date())
         if(Int(timeNow)! < 10){
-            headerHello.text = "Selamat Pagi,"
+            headerHello.text = TimeString.pagi.rawValue
         } else
         if((Int(timeNow)! >= 10) && (Int(timeNow)! < 14)){
-            headerHello.text = "Selamat Siang,"
+            headerHello.text = TimeString.siang.rawValue
         } else
         if((Int(timeNow)! >= 14) && (Int(timeNow)! < 19)){
-            headerHello.text = "Selamat Sore,"
+            headerHello.text = TimeString.sore.rawValue
         } else  {
-            headerHello.text = "Selamat Malam,"
+            headerHello.text = TimeString.malam.rawValue
         }
 
         print(timeNow)
@@ -183,7 +188,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         for num in newArray.reversed() {
             priceString.append(String(num))
         }
-        return "Rp. \(priceString)"
+        return "Rp \(priceString)"
     }
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        

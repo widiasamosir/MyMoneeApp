@@ -19,6 +19,8 @@ class UpdateProfileViewController: UIViewController {
     @IBOutlet weak var status: UILabel!
     @IBOutlet weak var editButton: UIImageView!
     var delegate: ProfileDelegate?
+    var imageUpdated : UIImage?
+    
     @IBAction func finish(_ sender: Any) {
       
         let profileViewController = ProfileViewController(nibName: "ProfileViewController", bundle: nil)
@@ -27,7 +29,7 @@ class UpdateProfileViewController: UIViewController {
        
         profileViewController.imageUpdated = self.profilePicture.image
         navigationController?.setViewControllers([profileViewController], animated: true)
-//        self.navigationController!.pushViewController(profileViewController, animated: true)
+
     }
  
     
@@ -35,16 +37,28 @@ class UpdateProfileViewController: UIViewController {
         print("edit")
         editButton.image = .none
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         editTextName.text = customer.userName
         editTextName.frame.size.width = editTextName.intrinsicContentSize.width
         status.text = customer.userStatus
+        
+        if(imageUpdated != nil){
+            print("Updated")
+            profilePicture.image = imageUpdated!
+            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+            self.profilePicture.clipsToBounds = true;
+            
+        }
+        
         editButton.leadingAnchor.constraint(equalTo: self.editTextName.leadingAnchor, constant: (editTextName.frame.size.width+40)).isActive = true
         let tapGestureRecognizer = UITapGestureRecognizer(target:self, action:#selector(self.imageTapped(_:)))
         profilePicture.isUserInteractionEnabled = true
         profilePicture.addGestureRecognizer(tapGestureRecognizer)
+        
     }
+    
     @objc func imageTapped(_ sender: UITapGestureRecognizer)
         {
             
@@ -52,11 +66,10 @@ class UpdateProfileViewController: UIViewController {
             self.profilePicture.image = image
             self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
             self.profilePicture.clipsToBounds = true;
-          }
+          } 
             
-            
-            
-        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
@@ -69,18 +82,5 @@ class UpdateProfileViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    
-    */
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let profileViewController = self.storyboard?.instantiateViewController(withIdentifier: "ProfileViewControllerID")as! ProfileViewController
-//        if segue.identifier == "ProfileViewControllerID" {
-//                    let destination = segue.profileViewController as! ProfileViewController
-//                    destination.imageUpdated = self.profilePicture.image
-//                }
-//    }
-
+  
 }

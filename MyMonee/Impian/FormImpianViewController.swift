@@ -14,16 +14,17 @@ class FormImpianViewController: UIViewController {
     @IBOutlet weak var textTargetCapaian: UITextField!
     
     var wish: Impian!
+    var temporaryTarget : String = ""
     @IBAction func save(_ sender: Any) {
         if(textJudul.hasText){
             wish.name = textJudul.text!
         }
         if(textTargetCapaian.hasText){
-            wish.target = Int(textTargetCapaian.text!)
+            wish.target = Int(parseDot(price:  textTargetCapaian.text!))
         }
         wish.reachedTarget = 0
         wish.status = false
-        var controller = MainTabController(nibName: String(describing: MainTabController.self), bundle: nil)
+        let controller = MainTabController(nibName: String(describing: MainTabController.self), bundle: nil)
         
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         controller.viewControllers![1] = UINavigationController(rootViewController: impianController)
@@ -33,6 +34,41 @@ class FormImpianViewController: UIViewController {
 
         
     }
+    
+    @IBAction func editedTarget(_ sender: Any) {
+        temporaryTarget = parseDot(price: textTargetCapaian.text!)
+        textTargetCapaian.text = getStringPrice(price: temporaryTarget)
+        print(textTargetCapaian.text!)
+    }
+    
+    func getStringPrice(price: String) -> String {
+        let number = String(price)
+        let array = Array(number)
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
+    }
+    
+    func parseDot(price: String)-> String{
+        let array = price.components(separatedBy: ".")
+        var string = ""
+        for item in array {
+            string.append(item)
+        }
+        return string
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         wish = Impian(name: "", target: 0, reachedTarget: 0, status: false)

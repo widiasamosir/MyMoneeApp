@@ -1,9 +1,4 @@
-//
-//  ImpianViewController.swift
-//  MyMonee
-//
-//  Created by Macbook on 14/05/21.
-//
+
 
 import UIKit
 
@@ -14,6 +9,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
     var wish : Impian!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.dataSource = self
@@ -25,6 +21,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         buttonAdd.isUserInteractionEnabled = true
         collectionView.reloadData()
     }
+    
     func isAvailable(wish: Impian)  {
         var available: Bool = false
         for impian in wishLists {
@@ -38,18 +35,12 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
       
     }
-//    func deleteWish(wish: Impian) {
-//        for impian in wishLists {
-//            if(impian.name == wish.name){
-//                impian.
-//
-//            }
-//        }
-//    }
+
     @objc func addImpian(_ sender: UITapGestureRecognizer){
         let formImpianController = FormImpianViewController(nibName: "FormImpianViewController", bundle: nil)
         self.navigationController?.pushViewController(formImpianController, animated: true)
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if wishLists.count > 0 {
@@ -84,6 +75,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
                 return 0
             }
     }
+    
     func setProgress(target: Int, reached: Int) -> Float {
         var progress : Float!
         
@@ -92,6 +84,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         
         return progress
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewID", for: indexPath as IndexPath) as! ImpianCollectionViewCell
         cell.judulImpian.text = wishLists[indexPath.row].name
@@ -105,6 +98,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
             
         return cell
     }
+    
     func getStringPrice(price: Int) -> String {
         let number = String(price)
         let array = number.utf8.map{Int(($0 as UInt8)) - 48}
@@ -123,6 +117,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         }
         return "\(priceString)"
     }
+    
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        
         let detailController =  DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
@@ -144,6 +139,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
         let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
