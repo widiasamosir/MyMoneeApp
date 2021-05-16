@@ -27,7 +27,7 @@ class RiwayatPenggunaanViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         judul.text = penggunaan.pengeluaranName
-        price.text = " Rp. \(pengeluaran[indexPath!].pengeluaranPrice!)"
+        
         id.text = String(penggunaan.id!)
         date.text = penggunaan.date
         viewRiwayat.layer.cornerRadius = 16
@@ -56,6 +56,8 @@ class RiwayatPenggunaanViewController: UIViewController {
             logo.image = UIImage(systemName: "arrow.down")
             logo.tintColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
             price.textColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
+            price.text = "- \(getStringPrice(price:  penggunaan.pengeluaranPrice!))"
+
         } else {
             status.text = "Pemasukan"
             viewLogo.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
@@ -64,6 +66,8 @@ class RiwayatPenggunaanViewController: UIViewController {
             logo.image = UIImage(systemName: "arrow.up")
             logo.tintColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 1)
             price.textColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 1)
+            price.text =  "+ \(getStringPrice(price:  penggunaan.pengeluaranPrice!))"
+
         }
         
     }
@@ -83,6 +87,26 @@ class RiwayatPenggunaanViewController: UIViewController {
         self.navigationController?.pushViewController(updateController, animated: true)
         
     }
+    
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "Rp. \(priceString)"
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

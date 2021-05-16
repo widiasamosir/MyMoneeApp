@@ -72,8 +72,9 @@ class UpdatePenggunaanViewController: UIViewController {
     @objc func back(_ sender: UITapGestureRecognizer){
         
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
+        let mainView = MainViewController(nibName: "MainViewController", bundle: nil)
         riwayatController.penggunaan = self.penggunaan
-        self.navigationController?.pushViewController(riwayatController, animated: true)
+        navigationController?.setViewControllers([mainView,riwayatController], animated: true)
         
     }
     @objc func simpan(_ sender: UITapGestureRecognizer) {

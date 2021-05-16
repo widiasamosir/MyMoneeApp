@@ -96,7 +96,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewID", for: indexPath as IndexPath) as! ImpianCollectionViewCell
         cell.judulImpian.text = wishLists[indexPath.row].name
         cell.progessImpian.progress = setProgress(target: wishLists[indexPath.row].target!, reached: wishLists[indexPath.row].reachedTarget!)
-        cell.targetImpian.text = "IDR \(wishLists[indexPath.row].reachedTarget!) / \(wishLists[indexPath.row].target!) "
+        cell.targetImpian.text = "IDR \(getStringPrice(price: wishLists[indexPath.row].reachedTarget!)) / \(getStringPrice(price: wishLists[indexPath.row].target!)) "
         let cellTapped = UITapGestureRecognizer(target: self, action: #selector(self.cellTapped(_:)))
         
         cellTapped.numberOfTapsRequired = 1
@@ -104,6 +104,24 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         cellTapped.view?.tag = indexPath.row
             
         return cell
+    }
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
     }
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        

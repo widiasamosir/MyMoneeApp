@@ -32,9 +32,9 @@ class DetailImpianViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         judul.text = wish.name
-        target.text = "Rp. \(wish.target!)"
+        target.text = "Rp. \(getStringPrice(price: wish.target!))"
         persentage.text = "\(setProgress(target: wish.target!, reached: wish.reachedTarget!)*100) %"
-        targetPerImpian.text = "IDR \(wish.reachedTarget!) / \(wish.target!) "
+        targetPerImpian.text = "IDR \(getStringPrice(price: wish.reachedTarget!)) / \(getStringPrice(price: wish.target!)) "
         progressBar.progress = setProgress(target: wish.target!, reached: wish.reachedTarget!)
         viewImpian.layer.cornerRadius = 8
         viewImpian.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.15).cgColor
@@ -77,7 +77,24 @@ class DetailImpianViewController: UIViewController {
         return progress
     }
     
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
 
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

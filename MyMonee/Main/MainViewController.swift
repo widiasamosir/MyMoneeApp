@@ -40,7 +40,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         
         userName.text = customer.userName
-        customer.balance = String( countPriceByStatus(status: false) - countPriceByStatus(status: true))
+        customer.balance = getStringPrice(price: ( countPriceByStatus(status: false) - countPriceByStatus(status: true)))
+                                          
         balance.text = customer.balance
         viewBalance.layer.cornerRadius = 8
         setHelloLabel()
@@ -100,12 +101,12 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func setUangMasuk() {
         uangMasukView.layer.cornerRadius = 4
-        uangMasuk.text = String(countPriceByStatus(status: false))
+        uangMasuk.text = getStringPrice(price: countPriceByStatus(status: false))
     }
     
     func setUangKeluar() {
         uangKeluarView.layer.cornerRadius = 4
-        uangKeluar.text = String(countPriceByStatus(status: true))
+        uangKeluar.text = getStringPrice(price: countPriceByStatus(status: true))
     }
     func countPriceByStatus(status : Bool) -> Int {
         var priceTotal : Int = 0
@@ -139,7 +140,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainTableViewCell.self), for: indexPath) as! MainTableViewCell
         cell.titleLabel.text = pengeluaran[indexPath.row].pengeluaranName
-        cell.priceLabel.text = String( pengeluaran[indexPath.row].pengeluaranPrice!)
+        
         cell.date.text = pengeluaran[indexPath.row].date
         
         if pengeluaran[indexPath.row].status{
@@ -148,11 +149,15 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.imageBackground.backgroundColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 0.2)
             cell.imageBackground
                 .layer.cornerRadius = 4
+            cell.priceLabel.textColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
+            cell.priceLabel.text = "- \(getStringPrice(price:  pengeluaran[indexPath.row].pengeluaranPrice!))"
         } else {
             cell.imageStatus.image = UIImage(systemName: "arrow.up")
             cell.imageBackground.backgroundColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 0.2)
             cell.imageStatus.tintColor = UIColor.systemGreen
             cell.imageBackground.layer.cornerRadius = 4
+            cell.priceLabel.text = "+ \(getStringPrice(price:  pengeluaran[indexPath.row].pengeluaranPrice!))"
+            cell.priceLabel.textColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 1)
            
         }
         let cellTapped = UITapGestureRecognizer(target: self, action: #selector(self.cellTapped(_:)))
@@ -162,7 +167,24 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.separatorColor = .clear
         return cell
     }
-    
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "Rp. \(priceString)"
+    }
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
