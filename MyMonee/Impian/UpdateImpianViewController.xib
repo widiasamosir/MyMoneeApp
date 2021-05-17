@@ -22,6 +22,7 @@
                 <outlet property="buttonSimpan" destination="KgR-7U-CHT" id="Z5t-X7-ozr"/>
                 <outlet property="deleteButton" destination="MPi-od-8X3" id="YNm-uN-7xO"/>
                 <outlet property="textJudul" destination="oCx-gw-PcB" id="ex0-bG-37b"/>
+                <outlet property="textTambahCapaian" destination="ZCC-E3-YC9" id="cY0-ie-Nce"/>
                 <outlet property="textTargetCapaian" destination="Q8D-2w-Zjp" id="RqD-Wu-aZD"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -96,20 +97,38 @@
                         <action selector="deleteWish:" destination="-1" eventType="touchUpInside" id="e4o-bn-J3Z"/>
                     </connections>
                 </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tambah Capaian (Rp)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aVR-HK-3vl">
+                    <rect key="frame" x="20" y="274" width="159" height="20"/>
+                    <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
+                    <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ZCC-E3-YC9">
+                    <rect key="frame" x="20" y="300" width="374" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="MBv-VS-Y9e"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MTV-An-Wh5" secondAttribute="trailing" constant="20" id="3ap-j0-7RV"/>
+                <constraint firstItem="aVR-HK-3vl" firstAttribute="leading" secondItem="Q8D-2w-Zjp" secondAttribute="leading" id="4gR-Rd-Npp"/>
                 <constraint firstItem="MTV-An-Wh5" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="14" id="8YK-F6-nQ8"/>
                 <constraint firstItem="MTV-An-Wh5" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="7" id="BXq-AT-3KB"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Q8D-2w-Zjp" secondAttribute="trailing" constant="20" id="Cqx-IB-1Wy"/>
+                <constraint firstItem="ZCC-E3-YC9" firstAttribute="bottom" secondItem="aVR-HK-3vl" secondAttribute="bottom" constant="40" id="Dze-HX-K3n"/>
+                <constraint firstItem="ZCC-E3-YC9" firstAttribute="trailing" secondItem="Q8D-2w-Zjp" secondAttribute="trailing" id="F8z-Gb-Ibq"/>
                 <constraint firstItem="oCx-gw-PcB" firstAttribute="top" secondItem="D2R-A9-OrZ" secondAttribute="bottom" constant="8" symbolic="YES" id="HDi-QS-eMq"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="MPi-od-8X3" secondAttribute="trailing" constant="30" id="IN9-0G-lBj"/>
                 <constraint firstItem="Q8D-2w-Zjp" firstAttribute="top" secondItem="KPr-23-uIp" secondAttribute="top" constant="30" id="LW6-gp-FvF"/>
                 <constraint firstItem="KPr-23-uIp" firstAttribute="bottom" secondItem="oCx-gw-PcB" secondAttribute="bottom" constant="50" id="LsM-4L-ad7"/>
                 <constraint firstItem="MPi-od-8X3" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="O62-Yq-s3K"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="KgR-7U-CHT" secondAttribute="bottom" constant="97" id="SVr-Gk-g2t"/>
+                <constraint firstItem="aVR-HK-3vl" firstAttribute="bottom" secondItem="Q8D-2w-Zjp" secondAttribute="bottom" constant="43.5" id="V4W-9I-i1v"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="oCx-gw-PcB" secondAttribute="trailing" constant="20" id="aBM-lR-wXf"/>
                 <constraint firstItem="D2R-A9-OrZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="f43-gG-GoQ"/>
                 <constraint firstItem="KgR-7U-CHT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="30" id="fz4-6U-lZt"/>
@@ -118,6 +137,7 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="KgR-7U-CHT" secondAttribute="trailing" constant="30" id="qsx-mk-wYh"/>
                 <constraint firstItem="Q8D-2w-Zjp" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="tTk-QV-10Z"/>
                 <constraint firstItem="D2R-A9-OrZ" firstAttribute="top" secondItem="MTV-An-Wh5" secondAttribute="bottom" constant="31" id="v7b-TB-vib"/>
+                <constraint firstItem="ZCC-E3-YC9" firstAttribute="leading" secondItem="aVR-HK-3vl" secondAttribute="leading" id="vbh-xP-vWZ"/>
                 <constraint firstItem="MPi-od-8X3" firstAttribute="top" secondItem="KgR-7U-CHT" secondAttribute="bottom" constant="23" id="z1J-ZZ-TPE"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="D2R-A9-OrZ" secondAttribute="trailing" constant="20" id="zgd-HR-1NZ"/>
             </constraints>

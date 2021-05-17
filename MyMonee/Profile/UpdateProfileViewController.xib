@@ -32,7 +32,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TA0-Lm-Ngb">
-                    <rect key="frame" x="0.0" y="49" width="414" height="246.5"/>
+                    <rect key="frame" x="0.0" y="49" width="414" height="287.5"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pqi-Ss-Hsd">
                             <rect key="frame" x="316" y="7" width="81" height="32"/>
@@ -109,7 +109,7 @@
             <constraints>
                 <constraint firstItem="TA0-Lm-Ngb" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Qhh-QY-Mm2"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="TA0-Lm-Ngb" secondAttribute="trailing" id="emE-XY-oeM"/>
-                <constraint firstItem="TA0-Lm-Ngb" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" multiplier="0.3" constant="1" id="pgN-8j-7qE"/>
+                <constraint firstItem="TA0-Lm-Ngb" firstAttribute="height" secondItem="fnl-2z-Ty3" secondAttribute="height" multiplier="0.35" constant="1" id="pgN-8j-7qE"/>
                 <constraint firstItem="TA0-Lm-Ngb" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="5" id="pzu-Rv-ian"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="84.375"/>

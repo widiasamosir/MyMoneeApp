@@ -107,6 +107,7 @@ class FormPenggunaanViewController: UIViewController {
         }
         return "\(priceString)"
     }
+    
     func parseDot(price: String)-> String{
         let array = price.components(separatedBy: ".")
         var string = ""
@@ -115,6 +116,7 @@ class FormPenggunaanViewController: UIViewController {
         }
         return string
     }
+    
     func activateButtonSave(){
         let saveGesture = UITapGestureRecognizer(target: self, action: #selector(self.simpan(_:)))
         buttonSimpan.addGestureRecognizer(saveGesture)
@@ -171,16 +173,26 @@ class FormPenggunaanViewController: UIViewController {
         navigationController?.setViewControllers([mainViewController], animated: true)
         
     }
+    
     @objc func simpan(_ sender: UITapGestureRecognizer) {
         penggunaan.pengeluaranName = self.textJudul.text
         penggunaan.pengeluaranPrice = Int(parseDot(price:  self.textJumlah.text!))
         penggunaan.status = self.status!
         let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
         pengeluaran.append(penggunaan)
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(pengeluaran) {
+            let defaults = UserDefaults.standard
+
+            defaults.set(encoded, forKey: "Pengeluaran")
+            
+        }
+        
         navigationController?.setViewControllers([mainViewController], animated: true)
         
-        print("save")
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

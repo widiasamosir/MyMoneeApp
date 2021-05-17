@@ -17,6 +17,7 @@ class DetailImpianViewController: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     
     @IBAction func edit(_ sender: Any) {
+        
         let updateImpianController = UpdateImpianViewController(nibName: "UpdateImpianViewController", bundle: nil)
         updateImpianController.indexPath = self.indexPath
         updateImpianController.wish = wish!
@@ -25,6 +26,20 @@ class DetailImpianViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let defaults = UserDefaults.standard
+        if let savedWish = defaults.object(forKey: "Impian") as? Data {
+            let decoder = JSONDecoder()
+            
+            if let loadedWish = try? decoder.decode([Impian].self, from: savedWish) {
+                wishLists = loadedWish
+               
+            }
+            
+           
+        }
+        
+       
         judul.text = wish.name
         target.text = "Rp. \(getStringPrice(price: wish.target!))"
         persentage.text = "\(setProgress(target: wish.target!, reached: wish.reachedTarget!)*100) %"
@@ -42,12 +57,13 @@ class DetailImpianViewController: UIViewController {
         buttonBack.addGestureRecognizer(backGesture)
         backGesture.numberOfTapsRequired = 1
         buttonBack.isUserInteractionEnabled = true
-        let confirmGesture = UITapGestureRecognizer(target: self, action: #selector(self.setTercapai(_:)))
-        confirmGesture.numberOfTapsRequired = 1
-        buttonConfirm.addGestureRecognizer(confirmGesture)
-        buttonConfirm.isUserInteractionEnabled = true
         if (setProgress(target: wish.target!, reached: wish.reachedTarget!)) == 1{
             buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
+            let confirmGesture = UITapGestureRecognizer(target: self, action: #selector(self.setTercapai(_:)))
+            confirmGesture.numberOfTapsRequired = 1
+            buttonConfirm.addGestureRecognizer(confirmGesture)
+            buttonConfirm.isUserInteractionEnabled = true
+
         } else {
             buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 0.5).cgColor
         }
@@ -62,7 +78,27 @@ class DetailImpianViewController: UIViewController {
     }
     
     @objc func setTercapai(_ sender: UITapGestureRecognizer) {
-        wish.reachedTarget = wish.target
+        let alert = UIAlertController(title: "Konfirmasi Ketercapaian", message: "Target telah tercapai. Konfirmasi ketercapaian impian anda.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title:"Konfirmasi", style: .default, handler: { [self]action in
+            let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
+            wish.name?.append(" [Tercapai]")
+            wishLists[indexPath!] = wish
+            
+            
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(wishLists) {
+                let defaults = UserDefaults.standard
+
+                defaults.set(encoded, forKey: "Impian")
+                
+            }
+            
+            navigationController?.setViewControllers([impianViewController], animated: true)
+            
+          
+        }))
+        alert.addAction(UIAlertAction(title:"Batal", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
      
         self.viewDidLoad()
     }

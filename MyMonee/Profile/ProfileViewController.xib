@@ -31,11 +31,14 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ve1-6B-WmC">
-                    <rect key="frame" x="0.0" y="44" width="414" height="238"/>
+                    <rect key="frame" x="0.0" y="44" width="414" height="251"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOO-e8-6HH">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BOO-e8-6HH">
                             <rect key="frame" x="316" y="8" width="81" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="81" id="dhP-qw-OJ3"/>
+                                <constraint firstAttribute="height" constant="30" id="uwQ-ZL-wBw"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="14"/>
                             <state key="normal" title="Edit">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -57,8 +60,11 @@
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wb3-Xd-0s0">
-                            <rect key="frame" x="40" y="201" width="334" height="17"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wb3-Xd-0s0">
+                            <rect key="frame" x="40" y="201" width="332" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="R7A-cA-nu6"/>
+                            </constraints>
                             <fontDescription key="fontDescription" name="Poppins-Regular" family="Poppins" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -67,11 +73,11 @@
                     <color key="backgroundColor" red="0.31372549020000001" green="0.41176470590000003" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="GBH-Vx-eUI" firstAttribute="top" secondItem="ve1-6B-WmC" secondAttribute="top" constant="50" id="2qU-nK-PjT"/>
+                        <constraint firstItem="wb3-Xd-0s0" firstAttribute="leading" secondItem="ve1-6B-WmC" secondAttribute="leading" constant="40" id="6Zy-h6-Q2O"/>
                         <constraint firstItem="wb3-Xd-0s0" firstAttribute="top" secondItem="Y0X-8e-MmG" secondAttribute="bottom" constant="7.5" id="B64-S1-ea8"/>
                         <constraint firstItem="Y0X-8e-MmG" firstAttribute="top" secondItem="GBH-Vx-eUI" secondAttribute="bottom" constant="17" id="B8q-9c-4ak"/>
-                        <constraint firstAttribute="trailing" secondItem="wb3-Xd-0s0" secondAttribute="trailing" constant="40" id="KQv-ct-g2D"/>
                         <constraint firstAttribute="trailing" secondItem="Y0X-8e-MmG" secondAttribute="trailing" constant="20" id="OMU-NO-3EZ"/>
-                        <constraint firstItem="wb3-Xd-0s0" firstAttribute="leading" secondItem="ve1-6B-WmC" secondAttribute="leading" constant="40" id="SJK-X1-y0n"/>
+                        <constraint firstItem="BOO-e8-6HH" firstAttribute="top" secondItem="ve1-6B-WmC" secondAttribute="topMargin" id="Ul6-2k-LQG"/>
                         <constraint firstItem="Y0X-8e-MmG" firstAttribute="leading" secondItem="ve1-6B-WmC" secondAttribute="leading" constant="20" id="fIX-QT-JTX"/>
                         <constraint firstAttribute="bottom" secondItem="wb3-Xd-0s0" secondAttribute="bottom" constant="20" id="npr-hG-ain"/>
                         <constraint firstItem="GBH-Vx-eUI" firstAttribute="centerX" secondItem="ve1-6B-WmC" secondAttribute="centerX" id="vhn-BU-kL5"/>
@@ -86,7 +92,10 @@
             <constraints>
                 <constraint firstItem="ve1-6B-WmC" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="057-38-gGG"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="ve1-6B-WmC" secondAttribute="trailing" id="93b-Rx-9Hq"/>
+                <constraint firstItem="wb3-Xd-0s0" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" multiplier="0.8" constant="1" id="PeI-J4-Zbx"/>
                 <constraint firstItem="ve1-6B-WmC" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="PmU-Ey-MZN"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="BOO-e8-6HH" secondAttribute="trailing" constant="17" id="n5e-si-4hT"/>
+                <constraint firstItem="ve1-6B-WmC" firstAttribute="width" secondItem="fnl-2z-Ty3" secondAttribute="width" id="wSw-qJ-sJ3"/>
             </constraints>
             <point key="canvasLocation" x="14" y="13"/>
         </view>

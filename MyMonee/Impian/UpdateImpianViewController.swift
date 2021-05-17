@@ -14,21 +14,50 @@ class UpdateImpianViewController: UIViewController {
     @IBOutlet weak var buttonBack: UIButton!
     
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var textTambahCapaian: UITextField!
+    
     var wish : Impian!
     var indexPath: Int?
     @IBOutlet weak var buttonSimpan: UIButton!
     
     @IBAction func save(_ sender: Any) {
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        formatter.dateStyle = .medium
+        let result = formatter.string(from: date)
+        
         if(textJudul.hasText){
             wish.name = textJudul.text!
         }
         if(textTargetCapaian.hasText){
             wish.target = Int(textTargetCapaian.text!)
         }
+        if(textTambahCapaian.hasText){
+            wish.reachedTarget = wish.reachedTarget! + Int(textTambahCapaian.text!)!
+        }
+        pengeluaran.append(Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(textTambahCapaian.text!), status: true, date: result))
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(pengeluaran) {
+            let defaults = UserDefaults.standard
+
+            defaults.set(encoded, forKey: "Pengeluaran")
+            
+        }
         
         let detailController = DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
         detailController.wish = self.wish!
         detailController.indexPath = self.indexPath
+        wishLists[indexPath!] = wish ?? Impian(name: "", target: 0, reachedTarget: 0, status: false)
+        
+     
+        if let encoded = try? encoder.encode(wishLists) {
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: "Impian")
+        }
+        
         navigationController?.setViewControllers([detailController], animated: true)
     }
     
@@ -36,8 +65,15 @@ class UpdateImpianViewController: UIViewController {
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         let alert = UIAlertController(title: "Menghapus wishlist", message: "Apakah Anda mau menghapus wishlist ini?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title:"Hapus", style: .destructive, handler: { [self]action in
-            
+            let encoder = JSONEncoder()
             wishLists.remove(at: self.indexPath!)
+            if let encoded = try? encoder.encode(wishLists) {
+                let defaults = UserDefaults.standard
+                defaults.set(encoded, forKey: "Impian")
+                
+            }
+          
+            
             navigationController?.setViewControllers([impianController], animated: true)
            
         }))
@@ -52,6 +88,7 @@ class UpdateImpianViewController: UIViewController {
         let detailController = DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
         detailController.wish = self.wish!
         detailController.indexPath = self.indexPath
+
         navigationController?.setViewControllers([detailController], animated: true)
        
     }

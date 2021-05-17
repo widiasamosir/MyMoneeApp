@@ -7,8 +7,8 @@
 
 import UIKit
 
-class UpdatePenggunaanViewController: UIViewController {
-
+class UpdatePenggunaanViewController: UIViewController, SaveData {
+   
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var textJudul: UITextField!
     @IBOutlet weak var textJumlah: UITextField!
@@ -82,6 +82,13 @@ class UpdatePenggunaanViewController: UIViewController {
         
     }
     @objc func simpan(_ sender: UITapGestureRecognizer) {
+        
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeStyle = .medium
+        formatter.dateStyle = .medium
+        let result = formatter.string(from: date)
+        
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
         let mainView = MainViewController(nibName: "MainViewController", bundle: nil)
         if(textJudul.text == nil || textJumlah.text == nil){
@@ -91,12 +98,17 @@ class UpdatePenggunaanViewController: UIViewController {
                 penggunaan.pengeluaranName = textJudul.text
             }
             if(textJumlah.text != ""){
-                penggunaan.pengeluaranPrice = Int(textJumlah.text!)
+                penggunaan.pengeluaranPrice = Int(textJumlah.text ?? "0")
             }
+            penggunaan.date = result
             pengeluaran[indexPath!] = self.penggunaan
             riwayatController.indexPath = self.indexPath
             riwayatController.penggunaan = self.penggunaan
+            
+           updateData(pengeluaran: pengeluaran)
         }
+        
+        
         navigationController?.setViewControllers([mainView,riwayatController], animated: true)
         
         
@@ -108,6 +120,8 @@ class UpdatePenggunaanViewController: UIViewController {
         alert.addAction(UIAlertAction(title:"Hapus", style: .destructive, handler: { [self]action in
             
             pengeluaran.remove(at: self.indexPath!)
+            
+            updateData(pengeluaran: pengeluaran)
             navigationController?.setViewControllers([mainViewController], animated: true)
           
         }))
@@ -116,25 +130,27 @@ class UpdatePenggunaanViewController: UIViewController {
     
     }
     
+    func updateData(pengeluaran: [Pengeluaran]) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(pengeluaran) {
+            let defaults = UserDefaults.standard
+
+            defaults.set(encoded, forKey: "Pengeluaran")
+            
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+   
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+  
 
 }

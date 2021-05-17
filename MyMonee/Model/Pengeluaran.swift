@@ -6,8 +6,10 @@
 //
 
 import Foundation
-
-struct Pengeluaran {
+protocol SaveData {
+    func updateData(pengeluaran: [Pengeluaran])
+}
+struct Pengeluaran: Codable {
     var id: Int?
     var pengeluaranName: String?
     var pengeluaranPrice: Int?
@@ -24,4 +26,4 @@ func dateNow() -> String {
     let result = formatter.string(from: date)
     return result
 }
-var pengeluaran : [Pengeluaran] = [Pengeluaran(id: 1, pengeluaranName: "Bayar Listrik", pengeluaranPrice: 100000, status: true, date: dateNow()), Pengeluaran(id: 2, pengeluaranName: "Bayar Gopay", pengeluaranPrice: 2000000, status: false, date: dateNow()), Pengeluaran(id: 3, pengeluaranName: "Bayar Nonton", pengeluaranPrice: 1000000, status: true, date: dateNow()),Pengeluaran(id: 4, pengeluaranName: "Bayar Gopay", pengeluaranPrice: 2000000, status: false, date: dateNow()), Pengeluaran(id: 5, pengeluaranName: "Bayar Nonton", pengeluaranPrice: 1000000, status: true, date: dateNow())]
+var pengeluaran : [Pengeluaran] = [Pengeluaran(id: 1, pengeluaranName: "Bayar Listrik", pengeluaranPrice: 100000, status: true, date: dateNow()), Pengeluaran(id: 2, pengeluaranName: "Bayar Gopay", pengeluaranPrice: 2000000, status: false, date: dateNow())]

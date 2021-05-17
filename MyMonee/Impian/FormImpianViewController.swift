@@ -15,6 +15,7 @@ class FormImpianViewController: UIViewController {
     
     var wish: Impian!
     var temporaryTarget : String = ""
+    
     @IBAction func save(_ sender: Any) {
         if(textJudul.hasText){
             wish.name = textJudul.text!
@@ -22,6 +23,7 @@ class FormImpianViewController: UIViewController {
         if(textTargetCapaian.hasText){
             wish.target = Int(parseDot(price:  textTargetCapaian.text!))
         }
+        wish.id = wishLists.count + 1
         wish.reachedTarget = 0
         wish.status = false
         let controller = MainTabController(nibName: String(describing: MainTabController.self), bundle: nil)
@@ -30,6 +32,15 @@ class FormImpianViewController: UIViewController {
         controller.viewControllers![1] = UINavigationController(rootViewController: impianController)
         wishLists.append(wish)
         impianController.view.tag = self.view!.tag
+        
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(wishLists) {
+         
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: "Impian")
+            impianController.collectionView.reloadData()
+        }
+        
         navigationController?.setViewControllers([impianController], animated: true)
 
         
@@ -76,7 +87,7 @@ class FormImpianViewController: UIViewController {
     }
 
     @IBAction func back(_ sender: Any) {
-        self.navigationController?.popToRootViewController(animated: true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

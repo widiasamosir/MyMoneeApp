@@ -29,8 +29,9 @@ class MainTabController: UITabBarController {
         let homeTab = UINavigationController(rootViewController: home)
         let homeImage = UIImage(named: "homeImage")?.withRenderingMode(.alwaysOriginal)
         let homeImageSelected = UIImage(named: "homeImageSelected")?.withRenderingMode(.alwaysOriginal)
+        
         homeTab.tabBarItem = UITabBarItem(title: "Home", image: homeImage, selectedImage: homeImageSelected)
-        homeTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        homeTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1)], for: .selected)
         homeTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], for: .normal)
         homeTab.tabBarItem.tag = 0
         
@@ -39,7 +40,7 @@ class MainTabController: UITabBarController {
         let impianImage = UIImage(named: "impianImage")?.withRenderingMode(.alwaysOriginal)
         let impianImageSelected = UIImage(named: "impianImageSelected")?.withRenderingMode(.alwaysOriginal)
         impianTab.tabBarItem = UITabBarItem(title: "Impian", image: impianImage, selectedImage: impianImageSelected)
-        impianTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        impianTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1)], for: .selected)
         impianTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], for: .normal)
         impianTab.tabBarItem.tag = 1
         
@@ -48,7 +49,7 @@ class MainTabController: UITabBarController {
         let profileImage = UIImage(named: "profileImage")?.withRenderingMode(.alwaysOriginal)
         let profileImageSelected = UIImage(named: "profileImageSelected")?.withRenderingMode(.alwaysOriginal)
         profileTab.tabBarItem = UITabBarItem(title: "Profile", image: profileImage, selectedImage: profileImageSelected)
-        profileTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.black], for: .selected)
+        profileTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1)], for: .selected)
         profileTab.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.lightGray], for: .normal)
         profileTab.tabBarItem.tag = 2
         

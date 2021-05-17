@@ -28,6 +28,12 @@ class UpdateProfileViewController: UIViewController {
         customer.userName = self.editTextName.text
        
         profileViewController.imageUpdated = self.profilePicture.image
+        saveImage(imageName: "profile", image: profilePicture.image!)
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(customer) {
+            let defaults = UserDefaults.standard
+            defaults.set(encoded, forKey: "Customer")
+        }
         navigationController?.setViewControllers([profileViewController], animated: true)
 
     }
@@ -59,6 +65,35 @@ class UpdateProfileViewController: UIViewController {
         
     }
     
+    func saveImage(imageName: String, image: UIImage) {
+
+
+     guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+
+        let fileName = imageName
+        let fileURL = documentsDirectory.appendingPathComponent(fileName)
+        guard let data = image.jpegData(compressionQuality: 1) else { return }
+
+        //Checks if file exists, removes it if so.
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                try FileManager.default.removeItem(atPath: fileURL.path)
+                print("Removed old image")
+            } catch let removeError {
+                print("couldn't remove file at path", removeError)
+            }
+
+        }
+
+        do {
+            try data.write(to: fileURL)
+        } catch let error {
+            print("error saving file with error", error)
+        }
+
+    }
+
+    
     @objc func imageTapped(_ sender: UITapGestureRecognizer)
         {
             
@@ -66,6 +101,7 @@ class UpdateProfileViewController: UIViewController {
             self.profilePicture.image = image
             self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
             self.profilePicture.clipsToBounds = true;
+            
           } 
             
     }

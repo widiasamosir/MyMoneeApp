@@ -26,16 +26,36 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var stackRiwayat: UIStackView!
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
+    
     enum TimeString : String{
         case pagi  = "Selamat Pagi,"
         case siang = "Selamat Siang,"
         case sore = "Selamat Sore,"
         case malam = "Selamat Malam,"
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        let defaults = UserDefaults.standard
+        if let savedPerson = defaults.object(forKey: "Customer") as? Data {
+            let decoder = JSONDecoder()
+            
+            if let loadedPerson = try? decoder.decode(Customer.self, from: savedPerson) {
+                customer = loadedPerson
+                
+            }
+           
+        }
+       
+        if let savedData = defaults.object(forKey: "Pengeluaran") as? Data {
+            let decoder = JSONDecoder()
+            
+            if let loaded = try? decoder.decode([Pengeluaran].self, from: savedData) {
+                pengeluaran = loaded
+                tableView.reloadData()
+            }
+        }
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageClicked(_:)))
         tapGesture.numberOfTapsRequired = 1
         buttonAdd.addGestureRecognizer(tapGesture)
@@ -57,8 +77,8 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         stackRiwayat.layer.cornerRadius = 20
         let uiNIb = UINib(nibName: String(describing: MainTableViewCell.self), bundle: nil)
         tableView.register(uiNIb, forCellReuseIdentifier: String(describing: MainTableViewCell.self))
+       
         tableView.reloadData()
-
     }
 
     @objc func imageClicked(_ sender: UITapGestureRecognizer)   {
@@ -76,7 +96,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
                 let rect = CGRect(origin: CGPoint(x: 0, y :self.backgroundTableView.center.y), size: CGSize(width: self.view.bounds.width - 16, height: 50.0))
                     messageLabel = UILabel(frame: rect)
                     messageLabel.center = self.backgroundTableView.center
-                    messageLabel.text = "Wah! Data tidak ditemukan"
+                    messageLabel.text = "Data kamu kosong, Yuk buat catatan kamu!"
                     messageLabel.numberOfLines = 0
                     messageLabel.textColor = UIColor.gray
                     messageLabel.textAlignment = .center
@@ -113,6 +133,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         uangKeluarView.layer.cornerRadius = 4
         uangKeluar.text = getStringPrice(price: countPriceByStatus(status: true))
     }
+    
     func countPriceByStatus(status : Bool) -> Int {
         var priceTotal : Int = 0
         for item in pengeluaran {
@@ -122,6 +143,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return priceTotal
     }
+    
     func setHelloLabel()  {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH"
@@ -142,7 +164,11 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         print(timeNow)
     
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        pengeluaran.sort { (data1: Pengeluaran, data2: Pengeluaran) -> Bool in
+            return data1.id ?? 0 > data2.id ?? 00
+        }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainTableViewCell.self), for: indexPath) as! MainTableViewCell
         cell.titleLabel.text = pengeluaran[indexPath.row].pengeluaranName
         
@@ -172,6 +198,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.separatorColor = .clear
         return cell
     }
+    
     func getStringPrice(price: Int) -> String {
         let number = String(price)
         let array = number.utf8.map{Int(($0 as UInt8)) - 48}
@@ -190,6 +217,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         return "Rp \(priceString)"
     }
+    
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
@@ -197,11 +225,13 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         riwayatController.indexPath =  sender.view!.tag
         self.navigationController?.pushViewController(riwayatController, animated: true)
 
-        
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        if(pengeluaran.count > 0){
+        self.viewDidLoad()
+        }
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
     }

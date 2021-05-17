@@ -14,6 +14,19 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         super.viewDidLoad()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        
+        
+        let defaults = UserDefaults.standard
+        if let savedWish = defaults.object(forKey: "Impian") as? Data {
+            let decoder = JSONDecoder()
+            
+            if let loadedWish = try? decoder.decode([Impian].self, from: savedWish) {
+                wishLists = loadedWish
+                collectionView.reloadData()
+            }
+        }
+        
+        
         self.collectionView.register(UINib.init(nibName: "ImpianCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "collectionViewID")
         let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.addImpian(_:)))
         addGesture.numberOfTapsRequired = 1
@@ -49,7 +62,7 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
                 let rect = CGRect(origin: CGPoint(x: 0, y :self.collectionView.center.y), size: CGSize(width: self.view.bounds.width - 16, height: 50.0))
                     messageLabel = UILabel(frame: rect)
                     messageLabel.center = self.collectionView.center
-                    messageLabel.text = "Wah! Data tidak ditemukan"
+                    messageLabel.text = "Data kamu kosong, Yuk buat impian kamu!"
                     messageLabel.numberOfLines = 0
                     messageLabel.textColor = UIColor.gray
                     messageLabel.textAlignment = .center
@@ -86,6 +99,10 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        wishLists.sort { (data1: Impian, data2: Impian) -> Bool in
+            return data1.id ?? 0 > data2.id ?? 00
+        }
+        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewID", for: indexPath as IndexPath) as! ImpianCollectionViewCell
         cell.judulImpian.text = wishLists[indexPath.row].name
         cell.progessImpian.progress = setProgress(target: wishLists[indexPath.row].target!, reached: wishLists[indexPath.row].reachedTarget!)
