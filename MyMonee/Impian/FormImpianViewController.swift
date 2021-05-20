@@ -30,9 +30,9 @@ class FormImpianViewController: UIViewController {
         
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         controller.viewControllers![1] = UINavigationController(rootViewController: impianController)
-        wishLists.append(wish)
+      
         impianController.view.tag = self.view!.tag
-        
+        wishLists.append(wish)
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(wishLists) {
          

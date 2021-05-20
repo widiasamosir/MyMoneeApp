@@ -18,12 +18,26 @@ class UpdateImpianViewController: UIViewController {
     
     var wish : Impian!
     var indexPath: Int?
+    var temporaryTarget : String = ""
+    var temporaryAddCapaian : String = ""
     @IBOutlet weak var buttonSimpan: UIButton!
+    
+    
+    @IBAction func changedTarget(_ sender: Any) {
+        temporaryTarget = parseDot(price: textTargetCapaian.text!)
+        textTargetCapaian.text = getStringPrice(price: temporaryTarget)
+    }
+    
+    @IBAction func changedAddTarget(_ sender: Any) {
+        temporaryAddCapaian = parseDot(price: textTambahCapaian.text!)
+        textTambahCapaian.text = getStringPrice(price: temporaryAddCapaian)
+    }
     
     @IBAction func save(_ sender: Any) {
         
         let date = Date()
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID_POSIX")
         formatter.timeStyle = .medium
         formatter.dateStyle = .medium
         let result = formatter.string(from: date)
@@ -32,12 +46,12 @@ class UpdateImpianViewController: UIViewController {
             wish.name = textJudul.text!
         }
         if(textTargetCapaian.hasText){
-            wish.target = Int(textTargetCapaian.text!)
+            wish.target = Int(parseDot(price: textTargetCapaian.text!))
         }
         if(textTambahCapaian.hasText){
-            wish.reachedTarget = wish.reachedTarget! + Int(textTambahCapaian.text!)!
+            wish.reachedTarget = wish.reachedTarget! + Int(parseDot(price: textTambahCapaian.text!))!
         }
-        pengeluaran.append(Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(textTambahCapaian.text!), status: true, date: result))
+        pengeluaran.append(Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(parseDot(price: textTambahCapaian.text!))!, status: true, date: result))
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(pengeluaran) {
@@ -99,7 +113,7 @@ class UpdateImpianViewController: UIViewController {
         impianController.isAvailable(wish: wish)
         textJudul.text = wishLists[indexPath!].name
         textTargetCapaian.text
-            = String(wishLists[indexPath!].target!)
+            = getStringPrice(price: String(wishLists[indexPath!].target!))
         
         buttonSimpan.layer.cornerRadius = 20
         deleteButton.layer.cornerRadius = 20
@@ -107,7 +121,35 @@ class UpdateImpianViewController: UIViewController {
         deleteButton.layer.borderColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1).cgColor
     }
 
+    func getStringPrice(price: String) -> String {
+        let number = String(price)
+        let array = Array(number)
+        var priceString: String = ""
 
+        var newArray : [String] = []
+
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
+    }
+    
+    func parseDot(price: String)-> String{
+        let array = price.components(separatedBy: ".")
+        var string = ""
+        for item in array {
+            string.append(item)
+        }
+        return string
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 

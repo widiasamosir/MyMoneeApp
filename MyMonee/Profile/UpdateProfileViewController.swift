@@ -53,7 +53,8 @@ class UpdateProfileViewController: UIViewController {
         if(imageUpdated != nil){
             print("Updated")
             profilePicture.image = imageUpdated!
-            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
+            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.height / 2
             self.profilePicture.clipsToBounds = true;
             
         }

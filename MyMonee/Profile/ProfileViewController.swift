@@ -45,6 +45,7 @@ class ProfileViewController: UIViewController {
         
         if(loadImageFromDiskWith(fileName: "profile") != nil){
             profilePicture.image =  loadImageFromDiskWith(fileName: "profile")
+            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
             self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
             self.profilePicture.clipsToBounds = true;
         }

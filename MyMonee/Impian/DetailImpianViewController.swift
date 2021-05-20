@@ -1,7 +1,12 @@
 import UIKit
 
-class DetailImpianViewController: UIViewController {
+protocol ButtonConfirmImpian {
+    func buttonChanger()
+    func setProgress(target: Int, reached: Int) -> Float
+}
 
+class DetailImpianViewController: UIViewController, ButtonConfirmImpian {
+   
     @IBOutlet weak var judul: UILabel!
     
     @IBOutlet weak var target: UILabel!
@@ -35,7 +40,6 @@ class DetailImpianViewController: UIViewController {
                 wishLists = loadedWish
                
             }
-            
            
         }
         
@@ -57,6 +61,18 @@ class DetailImpianViewController: UIViewController {
         buttonBack.addGestureRecognizer(backGesture)
         backGesture.numberOfTapsRequired = 1
         buttonBack.isUserInteractionEnabled = true
+        buttonChanger()
+      
+    }
+    
+    @objc func back(_ sender: UITapGestureRecognizer){
+        
+        let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
+        wishLists[indexPath!] = wish
+        navigationController?.setViewControllers([impianViewController], animated: true)
+    }
+    
+    func buttonChanger() {
         if (setProgress(target: wish.target!, reached: wish.reachedTarget!)) == 1{
             buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
             let confirmGesture = UITapGestureRecognizer(target: self, action: #selector(self.setTercapai(_:)))
@@ -67,14 +83,6 @@ class DetailImpianViewController: UIViewController {
         } else {
             buttonConfirm.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 0.5).cgColor
         }
-      
-    }
-    
-    @objc func back(_ sender: UITapGestureRecognizer){
-        
-        let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
-        wishLists[indexPath!] = wish
-        navigationController?.setViewControllers([impianViewController], animated: true)
     }
     
     @objc func setTercapai(_ sender: UITapGestureRecognizer) {

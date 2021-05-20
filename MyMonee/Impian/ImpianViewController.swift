@@ -2,7 +2,7 @@
 
 import UIKit
 
-class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
+class ImpianViewController: UIViewController {
     
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonAdd: UIImageView!
@@ -53,6 +53,54 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         let formImpianController = FormImpianViewController(nibName: "FormImpianViewController", bundle: nil)
         self.navigationController?.pushViewController(formImpianController, animated: true)
     }
+    
+    
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
+    }
+    
+    @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
+       
+        let detailController =  DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
+        detailController.wish = wishLists[sender.view!.tag]
+        detailController.indexPath = sender.view!.tag
+        self.navigationController?.pushViewController(detailController, animated: true)
+
+        
+    }
+   
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        collectionView.reloadData()
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+   
+}
+
+
+extension ImpianViewController: UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -108,53 +156,18 @@ class ImpianViewController: UIViewController, UICollectionViewDelegate, UICollec
         cell.progessImpian.progress = setProgress(target: wishLists[indexPath.row].target!, reached: wishLists[indexPath.row].reachedTarget!)
         cell.targetImpian.text = "IDR \(getStringPrice(price: wishLists[indexPath.row].reachedTarget!)) / \(getStringPrice(price: wishLists[indexPath.row].target!)) "
         let cellTapped = UITapGestureRecognizer(target: self, action: #selector(self.cellTapped(_:)))
-        
+        if(cell.progessImpian.progress == 1){
+            cell.iconConfirmed.tintColor = UIColor(red: 0.153, green: 0.682, blue: 0.376, alpha: 1)
+        } else {
+            cell.iconConfirmed.tintColor = UIColor(red: 0.741, green: 0.741, blue: 0.741, alpha: 1)
+            
+        }
         cellTapped.numberOfTapsRequired = 1
         cell.addGestureRecognizer(cellTapped)
         cellTapped.view?.tag = indexPath.row
-            
-        return cell
-    }
-    
-    func getStringPrice(price: Int) -> String {
-        let number = String(price)
-        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
-        var priceString: String = ""
-
-        var newArray : [String] = []
-        for i in 0...array.count-1 {
-            let n = array.count-1 - i
-            newArray.append(String(array[n]))
-            if((i+1)%3 == 0) && ((i+1) != array.count){
-                newArray.append(".")
-            }
-        }
-        for num in newArray.reversed() {
-            priceString.append(String(num))
-        }
-        return "\(priceString)"
-    }
-    
-    @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
-       
-        let detailController =  DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
-        detailController.wish = wishLists[sender.view!.tag]
-        detailController.indexPath = sender.view!.tag
-        self.navigationController?.pushViewController(detailController, animated: true)
-
+        cell.deleteButton.tag = indexPath.row
         
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

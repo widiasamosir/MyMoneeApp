@@ -6,8 +6,12 @@
 //
 
 import UIKit
+protocol ButtonSave {
+    func activateButtonSave()
+    func handlingMinus()
+}
+class FormPenggunaanViewController: UIViewController, ButtonSave {
 
-class FormPenggunaanViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var textJudul: UITextField!
@@ -20,6 +24,8 @@ class FormPenggunaanViewController: UIViewController {
     var isJudulEmpty : Bool? = true
     var isJumlahEmpty : Bool? = true
     var temporaryTarget : String = ""
+    var balance : Int?
+    
     @IBAction func judulDidChange(_ sender: Any) {
         self.isJudulEmpty = false
         self.viewDidLoad()
@@ -31,8 +37,9 @@ class FormPenggunaanViewController: UIViewController {
     }
     
     @IBAction func editedTarget(_ sender: Any) {
-        temporaryTarget = parseDot(price: textJumlah.text!)
+        temporaryTarget =  parseDot(price: textJumlah.text!)
         textJumlah.text = getStringPrice(price: temporaryTarget)
+        
         print(textJumlah.text!)
     }
    
@@ -41,9 +48,13 @@ class FormPenggunaanViewController: UIViewController {
         super.viewDidLoad()
         let date = Date()
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID_POSIX")
         formatter.timeStyle = .medium
         formatter.dateStyle = .medium
         let result = formatter.string(from: date)
+        
+        
+        
         penggunaan = Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "", pengeluaranPrice: 0, status: false, date: result)
      
         buttonPickPemasukan.layer.cornerRadius = 8
@@ -74,7 +85,7 @@ class FormPenggunaanViewController: UIViewController {
             buttonSimpan.addGestureRecognizer(saveGesture)
             saveGesture.numberOfTapsRequired = 1
             buttonSimpan.isUserInteractionEnabled = true
-            buttonSimpan.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
+             
             activateButtonSave()
         }
         else{
@@ -88,34 +99,7 @@ class FormPenggunaanViewController: UIViewController {
     
  
    
-    func getStringPrice(price: String) -> String {
-        let number = String(price)
-        let array = Array(number)
-        var priceString: String = ""
 
-        var newArray : [String] = []
-
-        for i in 0...array.count-1 {
-            let n = array.count-1 - i
-            newArray.append(String(array[n]))
-            if((i+1)%3 == 0) && ((i+1) != array.count){
-                newArray.append(".")
-            }
-        }
-        for num in newArray.reversed() {
-            priceString.append(String(num))
-        }
-        return "\(priceString)"
-    }
-    
-    func parseDot(price: String)-> String{
-        let array = price.components(separatedBy: ".")
-        var string = ""
-        for item in array {
-            string.append(item)
-        }
-        return string
-    }
     
     func activateButtonSave(){
         let saveGesture = UITapGestureRecognizer(target: self, action: #selector(self.simpan(_:)))
@@ -124,6 +108,22 @@ class FormPenggunaanViewController: UIViewController {
         buttonSimpan.isUserInteractionEnabled = true
         buttonSimpan.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
     }
+    
+    func handlingMinus() {
+      
+        if(getInt(string: temporaryTarget) > balance!) && status == true{
+            let alert = UIAlertController(title: "Saldo anda tidak cukup", message: "Saldo anda sebesar \(customer.balance!), tidak cukup untuk melakukan transaksi sebesar Rp  \(textJumlah.text ?? "").", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title:"Edit", style: .default, handler: nil))
+            alert.addAction(UIAlertAction(title:"Batal", style: .cancel, handler: {[self]action in
+                navigationController?.popToRootViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        
+        } else {
+            pengeluaran.append(penggunaan)
+        }
+    }
+    
     func validateAll(textFields:[UITextField]) -> Bool {
            // Check each field for nil and not empty.
            for field in textFields {
@@ -179,7 +179,8 @@ class FormPenggunaanViewController: UIViewController {
         penggunaan.pengeluaranPrice = Int(parseDot(price:  self.textJumlah.text!))
         penggunaan.status = self.status!
         let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
-        pengeluaran.append(penggunaan)
+        handlingMinus()
+        
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(pengeluaran) {
@@ -205,14 +206,51 @@ class FormPenggunaanViewController: UIViewController {
 
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+}
+
+
+extension FormPenggunaanViewController{
+    func getStringPrice(price: String) -> String {
+        let number = String(price)
+        let array = Array(number)
+        var priceString: String = ""
+
+        var newArray : [String] = []
+
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
     }
-    */
+    
+    func parseDot(price: String)-> String{
+        let array = price.components(separatedBy: ".")
+        var string = ""
+        for item in array {
+            string.append(item)
+        }
+        return string
+    }
+}
 
+extension FormPenggunaanViewController {
+    func getInt(string : String) -> Int {
+        Int(string) ?? 0
+    }
+}
+
+extension FormPenggunaanViewController: MainDelegate{
+ 
+    func sendBalance(price: Int) {
+        self.balance = price
+    }
+    
 }

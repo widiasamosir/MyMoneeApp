@@ -7,7 +7,12 @@
 
 import UIKit
 
-class MainViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol MainDelegate {
+    func sendBalance(price: Int)
+}
+
+
+class MainViewController: UIViewController {
 
     @IBOutlet weak var headerHello: UILabel!
     @IBOutlet weak var userName: UILabel!
@@ -26,6 +31,7 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var stackRiwayat: UIStackView!
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
+    var delegate: MainDelegate?
     
     enum TimeString : String{
         case pagi  = "Selamat Pagi,"
@@ -84,9 +90,60 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func imageClicked(_ sender: UITapGestureRecognizer)   {
         print("tap on button")
         let formViewController = FormPenggunaanViewController(nibName: "FormPenggunaanViewController", bundle: nil)
+        formViewController.balance = countPriceByStatus(status: false) - countPriceByStatus(status: true)
+        delegate?.sendBalance(price: formViewController.balance ?? 0)
         self.navigationController?.pushViewController(formViewController, animated: true)
  
     }
+    
+   
+    
+    func getStringPrice(price: Int) -> String {
+        let number = String(price)
+        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
+        var priceString: String = ""
+
+        var newArray : [String] = []
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "Rp \(priceString)"
+    }
+    
+    @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
+       
+        let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
+        riwayatController.penggunaan = pengeluaran[sender.view!.tag]
+        riwayatController.indexPath =  sender.view!.tag
+        self.navigationController?.pushViewController(riwayatController, animated: true)
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if(pengeluaran.count > 0){
+        self.viewDidLoad()
+        }
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+}
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -166,8 +223,10 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+     
         pengeluaran.sort { (data1: Pengeluaran, data2: Pengeluaran) -> Bool in
-            return data1.id ?? 0 > data2.id ?? 00
+            return data1.date ?? "" > data2.date ?? ""
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainTableViewCell.self), for: indexPath) as! MainTableViewCell
         cell.titleLabel.text = pengeluaran[indexPath.row].pengeluaranName
@@ -197,48 +256,5 @@ class MainViewController: UIViewController, UITableViewDelegate, UITableViewData
         cellTapped.view?.tag = indexPath.row
         tableView.separatorColor = .clear
         return cell
-    }
-    
-    func getStringPrice(price: Int) -> String {
-        let number = String(price)
-        let array = number.utf8.map{Int(($0 as UInt8)) - 48}
-        var priceString: String = ""
-
-        var newArray : [String] = []
-        for i in 0...array.count-1 {
-            let n = array.count-1 - i
-            newArray.append(String(array[n]))
-            if((i+1)%3 == 0) && ((i+1) != array.count){
-                newArray.append(".")
-            }
-        }
-        for num in newArray.reversed() {
-            priceString.append(String(num))
-        }
-        return "Rp \(priceString)"
-    }
-    
-    @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
-       
-        let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
-        riwayatController.penggunaan = pengeluaran[sender.view!.tag]
-        riwayatController.indexPath =  sender.view!.tag
-        self.navigationController?.pushViewController(riwayatController, animated: true)
-
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if(pengeluaran.count > 0){
-        self.viewDidLoad()
-        }
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 }

@@ -19,10 +19,20 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
     
     var penggunaan : Pengeluaran!
     var indexPath : Int?
+    var temporaryTarget : String = ""
+    
+    @IBAction func editedTarget(_ sender: Any) {
+        temporaryTarget = parseDot(price: textJumlah.text!)
+        textJumlah.text = getStringPrice(price: temporaryTarget)
+       
+    }
+ 
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         textJudul.text = penggunaan.pengeluaranName
-        textJumlah.text = String(penggunaan.pengeluaranPrice!)
+        textJumlah.text = getStringPrice(price: String(penggunaan.pengeluaranPrice ?? 0))
         buttonPickPemasukan.layer.cornerRadius = 8
        setShadowCategory(button: buttonPickPemasukan)
         setShadowCategory(button: buttonPickPengeluaran)
@@ -98,9 +108,10 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
                 penggunaan.pengeluaranName = textJudul.text
             }
             if(textJumlah.text != ""){
-                penggunaan.pengeluaranPrice = Int(textJumlah.text ?? "0")
+                penggunaan.pengeluaranPrice = Int(parseDot(price: textJumlah.text ?? "0"))
             }
             penggunaan.date = result
+            
             pengeluaran[indexPath!] = self.penggunaan
             riwayatController.indexPath = self.indexPath
             riwayatController.penggunaan = self.penggunaan
@@ -138,6 +149,35 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
             defaults.set(encoded, forKey: "Pengeluaran")
             
         }
+    }
+    
+    func getStringPrice(price: String) -> String {
+        let number = String(price)
+        let array = Array(number)
+        var priceString: String = ""
+
+        var newArray : [String] = []
+
+        for i in 0...array.count-1 {
+            let n = array.count-1 - i
+            newArray.append(String(array[n]))
+            if((i+1)%3 == 0) && ((i+1) != array.count){
+                newArray.append(".")
+            }
+        }
+        for num in newArray.reversed() {
+            priceString.append(String(num))
+        }
+        return "\(priceString)"
+    }
+    
+    func parseDot(price: String)-> String{
+        let array = price.components(separatedBy: ".")
+        var string = ""
+        for item in array {
+            string.append(item)
+        }
+        return string
     }
     
     override func viewWillAppear(_ animated: Bool) {

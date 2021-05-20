@@ -70,6 +70,9 @@
                     </constraints>
                     <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="changedTarget:" destination="-1" eventType="editingChanged" id="q5v-2f-4GP"/>
+                    </connections>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KgR-7U-CHT">
                     <rect key="frame" x="30" y="722" width="354" height="43"/>
@@ -110,6 +113,9 @@
                     </constraints>
                     <fontDescription key="fontDescription" name="Poppins-SemiBold" family="Poppins" pointSize="24"/>
                     <textInputTraits key="textInputTraits"/>
+                    <connections>
+                        <action selector="changedAddTarget:" destination="-1" eventType="editingChanged" id="VIJ-mZ-dTN"/>
+                    </connections>
                 </textField>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
