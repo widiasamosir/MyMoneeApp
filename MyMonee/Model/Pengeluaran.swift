@@ -11,12 +11,24 @@ protocol SaveData {
     func updateData(pengeluaran: [Pengeluaran])
 }
 
+struct PengeluaranResponse: Codable {
+    var results: [Pengeluaran]?
+}
+
 struct Pengeluaran: Codable {
-    var id: Int?
+    var id: String?
     var pengeluaranName: String?
     var pengeluaranPrice: Int?
     var status: Bool = false
     var date: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case pengeluaranName
+        case pengeluaranPrice
+        case status
+        case date
+    }
     
 }
 
@@ -32,6 +44,6 @@ extension Pengeluaran {
     }
     
 }
-var pengeluaran : [Pengeluaran] = []
+//var pengeluaran : [Pengeluaran] = []
 
 //var pengeluaran : [Pengeluaran] = [Pengeluaran(id: 1, pengeluaranName: "Bayar Listrik", pengeluaranPrice: 100000, status: true, date: dateNow()), Pengeluaran(id: 2, pengeluaranName: "Bayar Gopay", pengeluaranPrice: 2000000, status: false, date: dateNow())]

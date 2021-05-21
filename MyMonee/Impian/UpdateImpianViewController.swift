@@ -20,6 +20,8 @@ class UpdateImpianViewController: UIViewController {
     var indexPath: Int?
     var temporaryTarget : String = ""
     var temporaryAddCapaian : String = ""
+    var pengeluaran : [Pengeluaran] = []
+    
     @IBOutlet weak var buttonSimpan: UIButton!
     
     
@@ -51,7 +53,7 @@ class UpdateImpianViewController: UIViewController {
         if(textTambahCapaian.hasText){
             wish.reachedTarget = wish.reachedTarget! + Int(parseDot(price: textTambahCapaian.text!))!
         }
-        pengeluaran.append(Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(parseDot(price: textTambahCapaian.text!))!, status: true, date: result))
+        pengeluaran.append(Pengeluaran(id: "dasdhs", pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(parseDot(price: textTambahCapaian.text!))!, status: true, date: result))
         
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(pengeluaran) {

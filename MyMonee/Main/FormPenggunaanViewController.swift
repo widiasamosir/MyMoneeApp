@@ -25,7 +25,8 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
     var isJumlahEmpty : Bool? = true
     var temporaryTarget : String = ""
     var balance : Int?
-    
+    var pengeluaran : [Pengeluaran] = []
+    var service: PostPenggunaanService = PostPenggunaanService()
     @IBAction func judulDidChange(_ sender: Any) {
         self.isJudulEmpty = false
         self.viewDidLoad()
@@ -55,7 +56,7 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
         
         
         
-        penggunaan = Pengeluaran(id: pengeluaran.count+1, pengeluaranName: "", pengeluaranPrice: 0, status: false, date: result)
+        penggunaan = Pengeluaran(id: "USDSJDHJ", pengeluaranName: "", pengeluaranPrice: 0, status: false, date: result)
      
         buttonPickPemasukan.layer.cornerRadius = 8
     
@@ -115,12 +116,19 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
             let alert = UIAlertController(title: "Saldo anda tidak cukup", message: "Saldo anda sebesar \(customer.balance!), tidak cukup untuk melakukan transaksi sebesar Rp  \(textJumlah.text ?? "").", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title:"Edit", style: .default, handler: nil))
             alert.addAction(UIAlertAction(title:"Batal", style: .cancel, handler: {[self]action in
-                navigationController?.popToRootViewController(animated: true)
+                navigationController?.popViewController(animated: true)
+                
             }))
             self.present(alert, animated: true, completion: nil)
         
         } else {
-            pengeluaran.append(penggunaan)
+            
+            service.savePengeluaran(parameters: penggunaan){ response in
+            DispatchQueue.main.async {
+                
+                
+                }
+            }
         }
     }
     
@@ -180,16 +188,8 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
         penggunaan.status = self.status!
         let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
         handlingMinus()
-        
-        
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(pengeluaran) {
-            let defaults = UserDefaults.standard
-
-            defaults.set(encoded, forKey: "Pengeluaran")
-            
-        }
-        
+//
+//        mainViewController.tableView.reloadData()
         navigationController?.setViewControllers([mainViewController], animated: true)
         
     }

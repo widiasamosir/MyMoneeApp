@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UpdatePenggunaanViewController: UIViewController, SaveData {
+class UpdatePenggunaanViewController: UIViewController {
    
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var textJudul: UITextField!
@@ -20,7 +20,9 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
     var penggunaan : Pengeluaran!
     var indexPath : Int?
     var temporaryTarget : String = ""
-    
+    var pengeluaran : [Pengeluaran] = []
+    var service: DeletePenggunaanService = DeletePenggunaanService()
+    var serviceUpdate: UpdatePenggunaanService = UpdatePenggunaanService()
     @IBAction func editedTarget(_ sender: Any) {
         temporaryTarget = parseDot(price: textJumlah.text!)
         textJumlah.text = getStringPrice(price: temporaryTarget)
@@ -112,11 +114,16 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
             }
             penggunaan.date = result
             
-            pengeluaran[indexPath!] = self.penggunaan
+//            pengeluaran[indexPath!] = self.penggunaan
+            serviceUpdate.savePengeluaran(parameters: penggunaan){ response in
+            DispatchQueue.main.async {
+                
+                
+                }
+            }
             riwayatController.indexPath = self.indexPath
             riwayatController.penggunaan = self.penggunaan
             
-           updateData(pengeluaran: pengeluaran)
         }
         
         
@@ -130,9 +137,14 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
         let alert = UIAlertController(title: "Menghapus penggunaan", message: "Apakah Anda mau menghapus penggunaan ini?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title:"Hapus", style: .destructive, handler: { [self]action in
             
-            pengeluaran.remove(at: self.indexPath!)
-            
-            updateData(pengeluaran: pengeluaran)
+           
+            service.deletePenggunaan(id: penggunaan.id!){ response in
+            DispatchQueue.main.async {
+                mainViewController.tableView.reloadData()
+                
+                }
+            }
+
             navigationController?.setViewControllers([mainViewController], animated: true)
           
         }))
@@ -141,15 +153,6 @@ class UpdatePenggunaanViewController: UIViewController, SaveData {
     
     }
     
-    func updateData(pengeluaran: [Pengeluaran]) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(pengeluaran) {
-            let defaults = UserDefaults.standard
-
-            defaults.set(encoded, forKey: "Pengeluaran")
-            
-        }
-    }
     
     func getStringPrice(price: String) -> String {
         let number = String(price)

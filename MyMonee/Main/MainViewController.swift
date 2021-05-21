@@ -11,6 +11,17 @@ protocol MainDelegate {
     func sendBalance(price: Int)
 }
 
+struct ProgressDialog {
+    static var alert = UIAlertController()
+    static var progressView = UIProgressView()
+    static var progressPoint : Float = 0{
+        didSet{
+            if(progressPoint == 1){
+                ProgressDialog.alert.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+}
 
 class MainViewController: UIViewController {
 
@@ -32,6 +43,13 @@ class MainViewController: UIViewController {
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
     var delegate: MainDelegate?
+    var service: GetPenggunaanService = GetPenggunaanService()
+    var pengeluaranList: [Pengeluaran] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+
     
     enum TimeString : String{
         case pagi  = "Selamat Pagi,"
@@ -53,15 +71,7 @@ class MainViewController: UIViewController {
             }
            
         }
-       
-        if let savedData = defaults.object(forKey: "Pengeluaran") as? Data {
-            let decoder = JSONDecoder()
-            
-            if let loaded = try? decoder.decode([Pengeluaran].self, from: savedData) {
-                pengeluaran = loaded
-                tableView.reloadData()
-            }
-        }
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageClicked(_:)))
         tapGesture.numberOfTapsRequired = 1
         buttonAdd.addGestureRecognizer(tapGesture)
@@ -71,20 +81,18 @@ class MainViewController: UIViewController {
         tableView.dataSource = self
         
         userName.text = customer.userName
-        customer.balance = getStringPrice(price: ( countPriceByStatus(status: false) - countPriceByStatus(status: true)))
+        
                                           
-        balance.text = customer.balance
+        
         viewBalance.layer.cornerRadius = 8
         setHelloLabel()
-        setUangMasuk()
-        setUangKeluar()
+        
         backgroundTableView.layer.backgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1).cgColor
         backgroundTableView.layer.cornerRadius = 20
         stackRiwayat.layer.cornerRadius = 20
         let uiNIb = UINib(nibName: String(describing: MainTableViewCell.self), bundle: nil)
         tableView.register(uiNIb, forCellReuseIdentifier: String(describing: MainTableViewCell.self))
-       
-        tableView.reloadData()
+        tableView.register(UINib(nibName: String(describing: EmptyHandlingTableViewCell.self), bundle: nil), forCellReuseIdentifier: String(describing: EmptyHandlingTableViewCell.self))
     }
 
     @objc func imageClicked(_ sender: UITapGestureRecognizer)   {
@@ -96,8 +104,29 @@ class MainViewController: UIViewController {
  
     }
     
+    func loadData(completion: () -> ())  {
+        service.loadPengeluaran{ response in
+            
+            
+            DispatchQueue.main.async { [self] in
+                
+                self.pengeluaranList = response
+                self.pengeluaranList.sort( by: { (data1: Pengeluaran, data2: Pengeluaran) -> Bool in
+                                return data1.date ?? "" > data2.date ?? ""
+                            })
+                customer.balance = getStringPrice(price: ( self.countPriceByStatus(status: false) - self.countPriceByStatus(status: true)))
+                balance.text = customer.balance
+                self.setUangMasuk()
+                self.setUangKeluar()
+                self.LoadingStop()
+                
+            }
+           
+        }
+        completion()
+        
+    }
    
-    
     func getStringPrice(price: Int) -> String {
         let number = String(price)
         let array = number.utf8.map{Int(($0 as UInt8)) - 48}
@@ -120,7 +149,7 @@ class MainViewController: UIViewController {
     @objc func cellTapped(_ sender: UITapGestureRecognizer)   {
        
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
-        riwayatController.penggunaan = pengeluaran[sender.view!.tag]
+        riwayatController.penggunaan = pengeluaranList[sender.view!.tag]
         riwayatController.indexPath =  sender.view!.tag
         self.navigationController?.pushViewController(riwayatController, animated: true)
 
@@ -128,7 +157,18 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if(pengeluaran.count > 0){
+        
+        self.loadData{
+            if(pengeluaranList.count == 0){
+            self.LoadingStart()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2){
+                    self.LoadingStop()
+            }
+            }
+            
+        }
+        print("pengeluaran",pengeluaranList.count)
+        if(pengeluaranList.count > 0){
         self.viewDidLoad()
         }
         
@@ -143,41 +183,20 @@ class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+extension MainViewController: UITableViewDelegate, UITableViewDataSource{
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if pengeluaran.count > 0 {
-            return pengeluaran.count
+        if pengeluaranList.count > 0 {
+           
+            return pengeluaranList.count
+            
             } else {
-                let rect = CGRect(origin: CGPoint(x: 0, y :self.backgroundTableView.center.y), size: CGSize(width: self.view.bounds.width - 16, height: 50.0))
-                    messageLabel = UILabel(frame: rect)
-                    messageLabel.center = self.backgroundTableView.center
-                    messageLabel.text = "Data kamu kosong, Yuk buat catatan kamu!"
-                    messageLabel.numberOfLines = 0
-                    messageLabel.textColor = UIColor.gray
-                    messageLabel.textAlignment = .center
-                    messageLabel.font = UIFont(name: "Lato-Regular", size: 17)
-                let rectButton = CGRect(origin: CGPoint(x: 30, y :self.backgroundTableView.center.y+30), size: CGSize(width: self.view.bounds.width - 60, height: 43))
-                    buttonNewPenggunaan = UILabel(frame: rectButton)
-                buttonNewPenggunaan.text = "Tambah Penggunaan"
-                buttonNewPenggunaan.textColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)
-                buttonNewPenggunaan.font = UIFont(name: "Poppins-SemiBold", size: 14)
-                
-                buttonNewPenggunaan.textAlignment = .center
-                buttonNewPenggunaan.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
-                    buttonNewPenggunaan.layer.cornerRadius = 20
-                let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageClicked(_:)))
-                addGesture.numberOfTapsRequired = 1
-                buttonNewPenggunaan.addGestureRecognizer(addGesture)
-                buttonNewPenggunaan.isUserInteractionEnabled = true
-                    self.view.addSubview(messageLabel)
-                    self.view.bringSubviewToFront(messageLabel)
-                self.view.addSubview(buttonNewPenggunaan)
-                self.view.bringSubviewToFront(buttonNewPenggunaan)
                 self.tableView.separatorColor = .clear
                 self.tableView.backgroundColor = .clear
-                return 0
+                
+                return 1
             }
     }
     
@@ -193,11 +212,14 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func countPriceByStatus(status : Bool) -> Int {
         var priceTotal : Int = 0
-        for item in pengeluaran {
+        
+        for item in pengeluaranList {
             if(item.status == status){
                 priceTotal += item.pengeluaranPrice!
+                print("price", item.pengeluaranPrice!)
             }
         }
+        
         return priceTotal
     }
     
@@ -224,29 +246,38 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-     
-        pengeluaran.sort { (data1: Pengeluaran, data2: Pengeluaran) -> Bool in
-            return data1.date ?? "" > data2.date ?? ""
+        if(pengeluaranList.count == 0){
+            self.LoadingStop()
+            let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: EmptyHandlingTableViewCell.self), for: indexPath) as! EmptyHandlingTableViewCell
+            let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageClicked(_:)))
+            addGesture.numberOfTapsRequired = 1
+            cell.button.addGestureRecognizer(addGesture)
+            cell.button.isUserInteractionEnabled = true
+            return cell
+           
         }
+//        pengeluaranList.sort { (data1: Pengeluaran, data2: Pengeluaran) -> Bool in
+//            return data1.date ?? "" > data2.date ?? ""
+//        }
         let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: MainTableViewCell.self), for: indexPath) as! MainTableViewCell
-        cell.titleLabel.text = pengeluaran[indexPath.row].pengeluaranName
+        cell.titleLabel.text = pengeluaranList[indexPath.row].pengeluaranName
         
-        cell.date.text = pengeluaran[indexPath.row].date
+        cell.date.text = pengeluaranList[indexPath.row].date
         
-        if pengeluaran[indexPath.row].status{
+        if pengeluaranList[indexPath.row].status{
             cell.imageStatus.image = UIImage(systemName: "arrow.down")
             cell.imageStatus.tintColor = UIColor.red
             cell.imageBackground.backgroundColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 0.2)
             cell.imageBackground
                 .layer.cornerRadius = 4
             cell.priceLabel.textColor = UIColor(red: 0.922, green: 0.341, blue: 0.341, alpha: 1)
-            cell.priceLabel.text = "- \(getStringPrice(price:  pengeluaran[indexPath.row].pengeluaranPrice!))"
+            cell.priceLabel.text = "- \(getStringPrice(price:  pengeluaranList[indexPath.row].pengeluaranPrice!))"
         } else {
             cell.imageStatus.image = UIImage(systemName: "arrow.up")
             cell.imageBackground.backgroundColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 0.2)
             cell.imageStatus.tintColor = UIColor.systemGreen
             cell.imageBackground.layer.cornerRadius = 4
-            cell.priceLabel.text = "+ \(getStringPrice(price:  pengeluaran[indexPath.row].pengeluaranPrice!))"
+            cell.priceLabel.text = "+ \(getStringPrice(price:  pengeluaranList[indexPath.row].pengeluaranPrice!))"
             cell.priceLabel.textColor = UIColor(red: 0.129, green: 0.588, blue: 0.325, alpha: 1)
            
         }
@@ -257,4 +288,22 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.separatorColor = .clear
         return cell
     }
+}
+
+extension MainViewController{
+   func LoadingStart(){
+        ProgressDialog.alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+    
+    let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+    loadingIndicator.hidesWhenStopped = true
+    loadingIndicator.style = UIActivityIndicatorView.Style.medium
+    loadingIndicator.startAnimating();
+
+    ProgressDialog.alert.view.addSubview(loadingIndicator)
+    present(ProgressDialog.alert, animated: true, completion: nil)
+  }
+
+  func LoadingStop(){
+    ProgressDialog.alert.dismiss(animated: true, completion: nil)
+  }
 }
