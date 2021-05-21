@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50737163CFB5D937FF9A659E /* Pods_MyMonee.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C97B3E143517951875892E8 /* Pods_MyMonee.framework */; };
 		FA6A6315264DA1E000753C0A /* ImpianViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A6313264DA1E000753C0A /* ImpianViewController.swift */; };
 		FA6A6316264DA1E000753C0A /* ImpianViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA6A6314264DA1E000753C0A /* ImpianViewController.xib */; };
 		FA6A6321264DA61600753C0A /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA6A631F264DA61600753C0A /* ProfileViewController.swift */; };
@@ -70,6 +71,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5448B1A1037461313BD6D436 /* Pods-MyMonee.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMonee.release.xcconfig"; path = "Target Support Files/Pods-MyMonee/Pods-MyMonee.release.xcconfig"; sourceTree = "<group>"; };
+		6C97B3E143517951875892E8 /* Pods_MyMonee.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MyMonee.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9EF42F16FA50250FD17378B /* Pods-MyMonee.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyMonee.debug.xcconfig"; path = "Target Support Files/Pods-MyMonee/Pods-MyMonee.debug.xcconfig"; sourceTree = "<group>"; };
 		FA6A6313264DA1E000753C0A /* ImpianViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpianViewController.swift; sourceTree = "<group>"; };
 		FA6A6314264DA1E000753C0A /* ImpianViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImpianViewController.xib; sourceTree = "<group>"; };
 		FA6A631F264DA61600753C0A /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -139,12 +143,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50737163CFB5D937FF9A659E /* Pods_MyMonee.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2929DF1DEAF3CD2DA967BF79 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6C97B3E143517951875892E8 /* Pods_MyMonee.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		884A7ACFCAEE197E60BE2510 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D9EF42F16FA50250FD17378B /* Pods-MyMonee.debug.xcconfig */,
+				5448B1A1037461313BD6D436 /* Pods-MyMonee.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		FA6A6312264DA1BC00753C0A /* Impian */ = {
 			isa = PBXGroup;
 			children = (
@@ -213,6 +236,8 @@
 				FA6C9250264D2E7D00A8F118 /* Font */,
 				FA8E4A4B264A1A650085C168 /* MyMonee */,
 				FA8E4A4A264A1A650085C168 /* Products */,
+				884A7ACFCAEE197E60BE2510 /* Pods */,
+				2929DF1DEAF3CD2DA967BF79 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -300,9 +325,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FA8E4A5D264A1A660085C168 /* Build configuration list for PBXNativeTarget "MyMonee" */;
 			buildPhases = (
+				30B29CF75A94E962CFC49E22 /* [CP] Check Pods Manifest.lock */,
 				FA8E4A45264A1A650085C168 /* Sources */,
 				FA8E4A46264A1A650085C168 /* Frameworks */,
 				FA8E4A47264A1A650085C168 /* Resources */,
+				08C0AC27BF4D0D0942CEA52D /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -389,6 +416,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		08C0AC27BF4D0D0942CEA52D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMonee/Pods-MyMonee-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MyMonee/Pods-MyMonee-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MyMonee/Pods-MyMonee-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30B29CF75A94E962CFC49E22 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MyMonee-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FA8E4A45264A1A650085C168 /* Sources */ = {
@@ -563,6 +632,7 @@
 		};
 		FA8E4A5E264A1A660085C168 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9EF42F16FA50250FD17378B /* Pods-MyMonee.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -582,6 +652,7 @@
 		};
 		FA8E4A5F264A1A660085C168 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5448B1A1037461313BD6D436 /* Pods-MyMonee.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

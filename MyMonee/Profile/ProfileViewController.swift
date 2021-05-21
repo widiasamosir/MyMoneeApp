@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
 
@@ -35,20 +36,24 @@ class ProfileViewController: UIViewController {
         } else{
             customerName.text = customer.userName}
         customerStatus.text = customer.userStatus
-        
-        if(imageUpdated != nil){
-            print("Updated")
-            profilePicture.image = imageUpdated!
-            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-            self.profilePicture.clipsToBounds = true;
-        }
-        
-        if(loadImageFromDiskWith(fileName: "profile") != nil){
-            profilePicture.image =  loadImageFromDiskWith(fileName: "profile")
-            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
-            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-            self.profilePicture.clipsToBounds = true;
-        }
+        let urlString = URL(string: "https://www.greenscene.co.id/wp-content/uploads/2020/02/Yoda.jpg")
+        profilePicture.kf.setImage(with: urlString)
+        self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
+        self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+        self.profilePicture.clipsToBounds = true;
+//        if(imageUpdated != nil){
+//            print("Updated")
+//            profilePicture.image = imageUpdated!
+//            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+//            self.profilePicture.clipsToBounds = true;
+//        }
+//
+//        if(loadImageFromDiskWith(fileName: "profile") != nil){
+//            profilePicture.image =  loadImageFromDiskWith(fileName: "profile")
+//            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
+//            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+//            self.profilePicture.clipsToBounds = true;
+//        }
         
        
     }

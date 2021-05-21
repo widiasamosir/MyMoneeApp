@@ -139,8 +139,9 @@ class UpdatePenggunaanViewController: UIViewController {
             
            
             service.deletePenggunaan(id: penggunaan.id!){ response in
-            DispatchQueue.main.async {
                 mainViewController.tableView.reloadData()
+                DispatchQueue.main.async {
+                
                 
                 }
             }

@@ -171,7 +171,7 @@ class MainViewController: UIViewController {
         if(pengeluaranList.count > 0){
         self.viewDidLoad()
         }
-        
+        tableView.reloadData()
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
         
     }
@@ -290,7 +290,7 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
-extension MainViewController{
+extension UIViewController{
    func LoadingStart(){
         ProgressDialog.alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
     
