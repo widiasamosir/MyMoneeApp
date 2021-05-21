@@ -188,9 +188,11 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
         penggunaan.status = self.status!
         let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
         handlingMinus()
-//
-//        mainViewController.tableView.reloadData()
-        navigationController?.setViewControllers([mainViewController], animated: true)
+        self.showToast(message: "Penggunaan \(penggunaan.pengeluaranName ?? "") anda sudah berhasil diupdate", font: .systemFont(ofSize: 12.0))
+        DispatchQueue.main.asyncAfter(deadline: .now()+1){
+            self.navigationController?.setViewControllers([mainViewController], animated: true)
+        }
+        
         
     }
     
@@ -254,3 +256,25 @@ extension FormPenggunaanViewController: MainDelegate{
     }
     
 }
+
+extension FormPenggunaanViewController {
+
+func showToast(message : String, font: UIFont) {
+
+    let toastLabel = UILabel(frame: CGRect(x: 30, y: self.view.frame.size.height/2, width: self.view.frame.size.width-60, height: 60))
+    toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+    toastLabel.textColor = UIColor.white
+    toastLabel.font = font
+    toastLabel.numberOfLines = 2
+    toastLabel.textAlignment = .center;
+    toastLabel.text = message
+    toastLabel.alpha = 1.0
+    toastLabel.layer.cornerRadius = 10;
+    toastLabel.clipsToBounds  =  true
+    self.view.addSubview(toastLabel)
+    UIView.animate(withDuration: 4.0, delay: 5, options: .curveEaseOut, animations: {
+         toastLabel.alpha = 0.0
+    }, completion: {(isCompleted) in
+        toastLabel.removeFromSuperview()
+    })
+} }
