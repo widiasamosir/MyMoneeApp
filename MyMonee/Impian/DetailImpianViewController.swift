@@ -18,13 +18,17 @@ class DetailImpianViewController: UIViewController, ButtonConfirmImpian {
     @IBOutlet weak var buttonConfirm: UIButton!
     var wish: Impian!
     var indexPath : Int?
-   
+    var wishLists: [Impian] = []
+    var serviceGet: GetImpianService = GetImpianService()
+    var serviceDelete: DeleteImpianService = DeleteImpianService()
+    var serviceUpdate: UpdateImpianService = UpdateImpianService()
     @IBOutlet weak var buttonBack: UIButton!
     
     @IBAction func edit(_ sender: Any) {
         
         let updateImpianController = UpdateImpianViewController(nibName: "UpdateImpianViewController", bundle: nil)
         updateImpianController.indexPath = self.indexPath
+      
         updateImpianController.wish = wish!
         self.navigationController?.pushViewController(updateImpianController, animated: true)
     }
@@ -32,17 +36,7 @@ class DetailImpianViewController: UIViewController, ButtonConfirmImpian {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let defaults = UserDefaults.standard
-        if let savedWish = defaults.object(forKey: "Impian") as? Data {
-            let decoder = JSONDecoder()
-            
-            if let loadedWish = try? decoder.decode([Impian].self, from: savedWish) {
-                wishLists = loadedWish
-               
-            }
-           
-        }
-        
+       
        
         judul.text = wish.name
         target.text = "Rp. \(getStringPrice(price: wish.target!))"
@@ -64,11 +58,37 @@ class DetailImpianViewController: UIViewController, ButtonConfirmImpian {
         buttonChanger()
       
     }
-    
+    func loadData(){
+        serviceGet.loadImpian{response in
+            DispatchQueue.main.async {
+                [self] in
+                self.wishLists = response
+                
+        }
+        }
+    }
+    func saveData(impian: Impian){
+        serviceUpdate.saveImpian(parameters: impian){
+            response in
+            DispatchQueue.main.async {
+                
+                
+                }
+        }
+    }
+    func deleteData(id: String){
+        serviceDelete.deleteImpian(id: id){
+            response in
+            DispatchQueue.main.async {
+                
+                
+                }
+        }
+    }
     @objc func back(_ sender: UITapGestureRecognizer){
         
         let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
-        wishLists[indexPath!] = wish
+        self.saveData(impian: wish)
         navigationController?.setViewControllers([impianViewController], animated: true)
     }
     
@@ -90,16 +110,8 @@ class DetailImpianViewController: UIViewController, ButtonConfirmImpian {
         alert.addAction(UIAlertAction(title:"Konfirmasi", style: .default, handler: { [self]action in
             let impianViewController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
             wish.name?.append(" [Tercapai]")
-            wishLists[indexPath!] = wish
+            saveData(impian: wish)
             
-            
-            let encoder = JSONEncoder()
-            if let encoded = try? encoder.encode(wishLists) {
-                let defaults = UserDefaults.standard
-
-                defaults.set(encoded, forKey: "Impian")
-                
-            }
             
             navigationController?.setViewControllers([impianViewController], animated: true)
             

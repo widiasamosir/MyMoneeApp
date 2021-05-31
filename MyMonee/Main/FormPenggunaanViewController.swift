@@ -122,11 +122,11 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
             self.present(alert, animated: true, completion: nil)
         
         } else {
-            
-            service.savePengeluaran(parameters: penggunaan){ response in
-            DispatchQueue.main.async {
-                
-                
+            let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
+            service.savePengeluaran(parameters: penggunaan){ [self] response in
+                self.showToast(message: "Penggunaan \(penggunaan.pengeluaranName ?? "") anda sudah berhasil diupdate", font: .systemFont(ofSize: 12.0))
+                DispatchQueue.main.asyncAfter(deadline: .now()+1){
+                    self.navigationController?.setViewControllers([mainViewController], animated: true)
                 }
             }
         }
@@ -186,12 +186,10 @@ class FormPenggunaanViewController: UIViewController, ButtonSave {
         penggunaan.pengeluaranName = self.textJudul.text
         penggunaan.pengeluaranPrice = Int(parseDot(price:  self.textJumlah.text!))
         penggunaan.status = self.status!
-        let mainViewController = MainViewController(nibName: "MainViewController", bundle: nil)
+       
         handlingMinus()
-        self.showToast(message: "Penggunaan \(penggunaan.pengeluaranName ?? "") anda sudah berhasil diupdate", font: .systemFont(ofSize: 12.0))
-        DispatchQueue.main.asyncAfter(deadline: .now()+1){
-            self.navigationController?.setViewControllers([mainViewController], animated: true)
-        }
+        
+       
         
         
     }

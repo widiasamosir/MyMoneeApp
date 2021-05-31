@@ -15,7 +15,8 @@ class FormImpianViewController: UIViewController {
     
     var wish: Impian!
     var temporaryTarget : String = ""
-    
+    var wishLists: [Impian] = []
+    var servicePost: PostImpianService = PostImpianService()
     @IBAction func save(_ sender: Any) {
         if(textJudul.hasText){
             wish.name = textJudul.text!
@@ -23,7 +24,7 @@ class FormImpianViewController: UIViewController {
         if(textTargetCapaian.hasText){
             wish.target = Int(parseDot(price:  textTargetCapaian.text!))
         }
-        wish.id = wishLists.count + 1
+        wish.id = UUID().uuidString
         wish.reachedTarget = 0
         wish.status = false
         let controller = MainTabController(nibName: String(describing: MainTabController.self), bundle: nil)
@@ -32,20 +33,18 @@ class FormImpianViewController: UIViewController {
         controller.viewControllers![1] = UINavigationController(rootViewController: impianController)
       
         impianController.view.tag = self.view!.tag
-        wishLists.append(wish)
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(wishLists) {
-         
-            let defaults = UserDefaults.standard
-            defaults.set(encoded, forKey: "Impian")
-            impianController.collectionView.reloadData()
-        }
-        
+        saveImpian(impian: wish)
+        impianController.viewDidLoad()
         navigationController?.setViewControllers([impianController], animated: true)
 
         
     }
-    
+    func saveImpian(impian: Impian){
+        servicePost.saveImpian(parameters: impian){ response in
+            
+            
+        }
+    }
     @IBAction func editedTarget(_ sender: Any) {
         temporaryTarget = parseDot(price: textTargetCapaian.text!)
         textTargetCapaian.text = getStringPrice(price: temporaryTarget)

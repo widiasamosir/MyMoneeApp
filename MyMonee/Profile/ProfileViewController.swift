@@ -36,24 +36,30 @@ class ProfileViewController: UIViewController {
         } else{
             customerName.text = customer.userName}
         customerStatus.text = customer.userStatus
-        let urlString = URL(string: "https://www.greenscene.co.id/wp-content/uploads/2020/02/Yoda.jpg")
-        profilePicture.kf.setImage(with: urlString)
-        self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
-        self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-        self.profilePicture.clipsToBounds = true;
-//        if(imageUpdated != nil){
-//            print("Updated")
-//            profilePicture.image = imageUpdated!
-//            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-//            self.profilePicture.clipsToBounds = true;
-//        }
+//        self.LoadingStart()
+//        let urlString = URL(string: "https://static.wikia.nocookie.net/naruto/images/1/13/Sasuke_Part_2.png")
 //
-//        if(loadImageFromDiskWith(fileName: "profile") != nil){
-//            profilePicture.image =  loadImageFromDiskWith(fileName: "profile")
+//
+//        DispatchQueue.main.async{ [self] in
+//            profilePicture.kf.setImage(with: urlString)
 //            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
 //            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
-//            self.profilePicture.clipsToBounds = true;
+//            self.profilePicture.clipsToBounds = true
+//            self.LoadingStop()
 //        }
+        if(imageUpdated != nil){
+            print("Updated")
+            profilePicture.image = imageUpdated!
+            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+            self.profilePicture.clipsToBounds = true;
+        }
+
+        if(loadImageFromDiskWith(fileName: "profile") != nil){
+            profilePicture.image =  loadImageFromDiskWith(fileName: "profile")
+            self.profilePicture.contentMode = UIView.ContentMode.scaleAspectFill
+            self.profilePicture.layer.cornerRadius = self.profilePicture.frame.size.width / 2
+            self.profilePicture.clipsToBounds = true;
+        }
         
        
     }

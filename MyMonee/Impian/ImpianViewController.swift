@@ -9,31 +9,36 @@ class ImpianViewController: UIViewController {
     var messageLabel = UILabel()
     var buttonNewPenggunaan = UILabel()
     var wish : Impian!
+    var serviceGet: GetImpianService = GetImpianService()
+    
+    var wishLists: [Impian] = [] {
+        didSet {
+            collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
+            collectionView.layoutSubviews()
+        }
+    }
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.loadDataImpian {}
+        collectionView.reloadData()
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
-        
-        
-        let defaults = UserDefaults.standard
-        if let savedWish = defaults.object(forKey: "Impian") as? Data {
-            let decoder = JSONDecoder()
-            
-            if let loadedWish = try? decoder.decode([Impian].self, from: savedWish) {
-                wishLists = loadedWish
-                collectionView.reloadData()
-            }
-        }
-        
-        
         self.collectionView.register(UINib.init(nibName: "ImpianCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "collectionViewID")
+        collectionView.register(UINib(nibName: String(describing: EmptyHandlingCollectionViewCell.self), bundle: nil), forCellWithReuseIdentifier: String(describing: EmptyHandlingCollectionViewCell.self))
+   
         let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.addImpian(_:)))
         addGesture.numberOfTapsRequired = 1
         buttonAdd.addGestureRecognizer(addGesture)
         buttonAdd.isUserInteractionEnabled = true
-        collectionView.reloadData()
+        
+        
     }
+    
+   
     
     func isAvailable(wish: Impian)  {
         var available: Bool = false
@@ -83,10 +88,12 @@ class ImpianViewController: UIViewController {
 
         
     }
-   
+    override func viewDidAppear(_ animated: Bool) {
+        self.viewDidLoad()
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        collectionView.reloadData()
+       
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 
@@ -105,35 +112,17 @@ extension ImpianViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         if wishLists.count > 0 {
+            
             return wishLists.count
             } else {
-                let rect = CGRect(origin: CGPoint(x: 0, y :self.collectionView.center.y), size: CGSize(width: self.view.bounds.width - 16, height: 50.0))
-                    messageLabel = UILabel(frame: rect)
-                    messageLabel.center = self.collectionView.center
-                    messageLabel.text = "Data kamu kosong, Yuk buat impian kamu!"
-                    messageLabel.numberOfLines = 0
-                    messageLabel.textColor = UIColor.gray
-                    messageLabel.textAlignment = .center
-                    messageLabel.font = UIFont(name: "Lato-Regular", size: 17)
-                let rectButton = CGRect(origin: CGPoint(x: 30, y :self.collectionView.center.y+30), size: CGSize(width: self.view.bounds.width - 60, height: 43))
-                    buttonNewPenggunaan = UILabel(frame: rectButton)
-                buttonNewPenggunaan.text = "Tambah Impian"
-                buttonNewPenggunaan.textColor = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1)
-                buttonNewPenggunaan.font = UIFont(name: "Poppins-SemiBold", size: 14)
+               
+             
+//                let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.addImpian(_:)))
+//                addGesture.numberOfTapsRequired = 1
+//                buttonNewPenggunaan.addGestureRecognizer(addGesture)
+//                buttonNewPenggunaan.isUserInteractionEnabled = true
                 
-                buttonNewPenggunaan.textAlignment = .center
-                buttonNewPenggunaan.layer.backgroundColor = UIColor(red: 0.314, green: 0.412, blue: 0.722, alpha: 1).cgColor
-                    buttonNewPenggunaan.layer.cornerRadius = 20
-                let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.addImpian(_:)))
-                addGesture.numberOfTapsRequired = 1
-                buttonNewPenggunaan.addGestureRecognizer(addGesture)
-                buttonNewPenggunaan.isUserInteractionEnabled = true
-                    self.view.addSubview(messageLabel)
-                    self.view.bringSubviewToFront(messageLabel)
-                self.view.addSubview(buttonNewPenggunaan)
-                self.view.bringSubviewToFront(buttonNewPenggunaan)
-              
-                return 0
+                return 1
             }
     }
     
@@ -147,10 +136,22 @@ extension ImpianViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        wishLists.sort { (data1: Impian, data2: Impian) -> Bool in
-            return data1.id ?? 0 > data2.id ?? 00
-        }
+//        wishLists.sort { (data1: Impian, data2: Impian) -> Bool in
+//            return data1.id ?? 0 > data2.id ?? 00
+//        }
+   
         
+        if(wishLists.count == 0){
+            self.LoadingStop()
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EmptyHandlingCollectionViewCell.self), for: indexPath) as! EmptyHandlingCollectionViewCell
+            let addGesture = UITapGestureRecognizer(target: self, action: #selector(self.addImpian(_:)))
+            addGesture.numberOfTapsRequired = 1
+            cell.buttonAddImpian.addGestureRecognizer(addGesture)
+            cell.buttonAddImpian.isUserInteractionEnabled = true
+      
+        return cell
+       
+    }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewID", for: indexPath as IndexPath) as! ImpianCollectionViewCell
         cell.judulImpian.text = wishLists[indexPath.row].name
         cell.progessImpian.progress = setProgress(target: wishLists[indexPath.row].target!, reached: wishLists[indexPath.row].reachedTarget!)
@@ -165,7 +166,8 @@ extension ImpianViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cellTapped.numberOfTapsRequired = 1
         cell.addGestureRecognizer(cellTapped)
         cellTapped.view?.tag = indexPath.row
-        cell.deleteButton.tag = indexPath.row
+        cell.deleteButton.accessibilityIdentifier = wishLists[indexPath.row].id
+        
         
         return cell
     }
@@ -174,6 +176,26 @@ extension ImpianViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let flowayout = collectionViewLayout as? UICollectionViewFlowLayout
         let space: CGFloat = (flowayout?.minimumInteritemSpacing ?? 0.0) + (flowayout?.sectionInset.left ?? 0.0) + (flowayout?.sectionInset.right ?? 0.0)
         let size:CGFloat = (collectionView.frame.size.width - space)
-        return CGSize(width: size, height: 80)
+        let height:CGFloat = (collectionView.frame.size.height - space)
+        if(wishLists.count == 0){
+        return CGSize(width: size, height: height)
+        } else{
+            return CGSize(width: size, height: 80)
+        }
+    }
+}
+
+extension ImpianViewController {
+    func loadDataImpian(completion: () -> ()){
+        serviceGet.loadImpian{response in
+            DispatchQueue.main.async {
+                [self] in
+                self.wishLists = response
+                self.collectionView.reloadData()
+                self.collectionView.collectionViewLayout.invalidateLayout()
+                self.collectionView.layoutSubviews()
+                
+        }
+        }
     }
 }

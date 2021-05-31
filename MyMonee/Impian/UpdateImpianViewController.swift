@@ -20,7 +20,12 @@ class UpdateImpianViewController: UIViewController {
     var indexPath: Int?
     var temporaryTarget : String = ""
     var temporaryAddCapaian : String = ""
-    var pengeluaran : [Pengeluaran] = []
+    var pengeluaran : Pengeluaran?
+    var wishLists: [Impian] = []
+    var servicePenggunaanSave : PostPenggunaanService = PostPenggunaanService()
+    var serviceGet: GetImpianService = GetImpianService()
+    var serviceDelete: DeleteImpianService = DeleteImpianService()
+    var serviceUpdate: UpdateImpianService = UpdateImpianService()
     
     @IBOutlet weak var buttonSimpan: UIButton!
     
@@ -53,42 +58,59 @@ class UpdateImpianViewController: UIViewController {
         if(textTambahCapaian.hasText){
             wish.reachedTarget = wish.reachedTarget! + Int(parseDot(price: textTambahCapaian.text!))!
         }
-        pengeluaran.append(Pengeluaran(id: "dasdhs", pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(parseDot(price: textTambahCapaian.text!))!, status: true, date: result))
-        
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(pengeluaran) {
-            let defaults = UserDefaults.standard
-
-            defaults.set(encoded, forKey: "Pengeluaran")
-            
-        }
-        
+        pengeluaran = Pengeluaran(id: UUID().uuidString, pengeluaranName: "Pay WishList \(wish.name!)", pengeluaranPrice: Int(parseDot(price: textTambahCapaian.text!))!, status: true, date: result)
+        savePengeluaran(pengeluaran: pengeluaran!)
+       
         let detailController = DetailImpianViewController(nibName: "DetailImpianViewController", bundle: nil)
         detailController.wish = self.wish!
         detailController.indexPath = self.indexPath
-        wishLists[indexPath!] = wish ?? Impian(name: "", target: 0, reachedTarget: 0, status: false)
         
-     
-        if let encoded = try? encoder.encode(wishLists) {
-            let defaults = UserDefaults.standard
-            defaults.set(encoded, forKey: "Impian")
-        }
+        updateData(impian: wish)
         
         navigationController?.setViewControllers([detailController], animated: true)
     }
+    func savePengeluaran(pengeluaran: Pengeluaran){
+        servicePenggunaanSave.savePengeluaran(parameters: pengeluaran){ response in
+            
+            
+        }
+    }
+    func loadData(){
+        serviceGet.loadImpian{response in
+            DispatchQueue.main.async {
+                [self] in
+                self.wishLists = response
+                
+        }
+        }
+    }
+    func updateData(impian: Impian){
+        serviceUpdate.saveImpian(parameters: impian){
+            response in
+            DispatchQueue.main.async {
+                
+                
+                }
+        }
+    }
+    func deleteData(id: String){
+        serviceDelete.deleteImpian(id: id){
+            response in
+            DispatchQueue.main.async {
+                
+                
+                }
+        }
+    }
+    
+    
     
     @IBAction func deleteWish(_ sender: Any) {
         let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
         let alert = UIAlertController(title: "Menghapus wishlist", message: "Apakah Anda mau menghapus wishlist ini?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title:"Hapus", style: .destructive, handler: { [self]action in
-            let encoder = JSONEncoder()
-            wishLists.remove(at: self.indexPath!)
-            if let encoded = try? encoder.encode(wishLists) {
-                let defaults = UserDefaults.standard
-                defaults.set(encoded, forKey: "Impian")
-                
-            }
           
+            deleteData(id: wish.id!)
             
             navigationController?.setViewControllers([impianController], animated: true)
            
@@ -111,11 +133,11 @@ class UpdateImpianViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let impianController = ImpianViewController(nibName: "ImpianViewController", bundle: nil)
-        impianController.isAvailable(wish: wish)
-        textJudul.text = wishLists[indexPath!].name
+        self.loadData()
+       
+        textJudul.text = wish.name
         textTargetCapaian.text
-            = getStringPrice(price: String(wishLists[indexPath!].target!))
+            = getStringPrice(price: String(wish.target!))
         
         buttonSimpan.layer.cornerRadius = 20
         deleteButton.layer.cornerRadius = 20
@@ -154,7 +176,7 @@ class UpdateImpianViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         self.navigationController?.setNavigationBarHidden(true, animated: animated)
     }
 

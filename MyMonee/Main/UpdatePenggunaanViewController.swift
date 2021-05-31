@@ -97,9 +97,11 @@ class UpdatePenggunaanViewController: UIViewController {
         
         let date = Date()
         let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID_POSIX")
         formatter.timeStyle = .medium
         formatter.dateStyle = .medium
         let result = formatter.string(from: date)
+        
         
         let riwayatController = RiwayatPenggunaanViewController(nibName: "RiwayatPenggunaanViewController", bundle: nil)
         let mainView = MainViewController(nibName: "MainViewController", bundle: nil)
